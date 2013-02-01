@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8"/>
+	<script type="text/javascript" src="scripts/shCore.js"></script>
+	<script type="text/javascript" src="scripts/shBrushJScript.js"></script>
+	<script type="text/javascript" src="js/jquery-1.4.2.js"></script>
+	<link type="text/css" rel="stylesheet" href="styles/shCoreDefault.css"/>
+	<script type="text/javascript">
+	
+	$(document).ready(function()
+	{ 
+		 $.ajax({
+			url:    'example06.js',
+			success: function(code) {
+				$('code').text(code);
+				var brush = new SyntaxHighlighter.brushes.JScript(),
+					html;
+				brush.init({ toolbar: false });
+				html = brush.getHtml(code);
+				document.getElementById('source').innerHTML = html; 
+			},
+			error: function(a,b,c) {
+				console.log(a);
+				console.log(b);
+				console.log(c);
+			},
+			dataType: 'text'
+		});
+	});	
+	</script>
+<title>example 06</title>
+</head>
+<html>
+<body>
+<script src="myfunctions.js">
+</script>
+<script src="example06.js">
+</script>
+<div id="source"></div>
+</body>
+</html>
