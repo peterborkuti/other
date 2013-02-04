@@ -1,11 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <body>
-<h1>Javascript</h1>
-<author>Peter Borkuti</author>
+<h1>Javascript Basics by examples</h1>
+<p>Examples written by Peter Borkuti.</br>
+The concept and knwoledge mainly based on:
+Videos of <b>Douglas Crockford</b> and his famous book 'JavaScript: The good parts'</b>
+</p>
+<img src="http://akamaicovers.oreilly.com/images/9780596517748/cat.gif">
+<p>
+The examples can be shared based on Common Creative Licence, those are my work. The texts may be exceprts, quotations so use with extreme care, please.
+</p>
 <a href="http://www.masswerk.at/JavaPac/JS-PacMan3D.html">Pac-Man 3d</a>
 <h2>History</h2>
 <p>1995, Brendan Eich, Mocha/LiveScript/JavaScript/ECMAScript</p>
+<h3>Excerpt from a Computerword interview with Brendan Eich</h3>
 <p><a href="http://www.computerworld.com.au/article/255293/a-z_programming_languages_javascript/?">What prompted the development of JavaScript?</a></br>
 HTML needed a "scripting language", a programming language that was easy to use by amateurs and novices, where the code could be written directly 
 in source form as part of the Web page markup. We aimed to provide a "glue language" for the Web designers and part time programmers who were building Web content from components such as images, plugins, and Java applets. We saw Java as the "component language" used by higher-priced programmers, where the glue programmers 
@@ -56,14 +64,25 @@ in source form as part of the Web page markup. We aimed to provide a "glue langu
 <a href="example12.html">example 12.</a> <a href="example12_.html">example 12_.</a>
 <h3>this</h3>
 <a href="example11.html">example 11.</a> <a href="example11_.html">example 11_.</a>
+<h2>Not mentioned</h2>
 <h3>Return</h3>
+If no return, undefined the returned value. With new, this.
+Automatic semicolon insertion and line-breaks caused undefined return when you want to return with object-literal.
 <h3>Scope</h3>
+No block scope. var-s should be first. See closures.
 <h3>Closure</h3>
-<h3>Callbacks, sync-async</h3>
-<h2>Specialities</h2>
-<h3>Scope</h3>
-<h3>var, globals</h3>
+See example12.
+<h3>Callbacks, sync-async, ajax</h3>
 <h3>unicode</h3>
+utf-8 is not fully implemented, Js uses UCS-2. See differences.
+http://mathiasbynens.be/notes/javascript-encoding
+<h3>automatic semicolon insertion</h3>
+Awful feature of the language. The Js engine tries to insert semicolons if you not insert them.
+Avoid. Always use semicolons.
+<h2>Bonus</h2>
+<h3>The Yahoo! YUI core module</h3>
+<a href="yui-core.html">YUI-core</a>
+<h3>The Yahoo! YUI core module's Queue class</h3>
+<a href="Queue.html">Queue</a>
 </body>
-
 </html>
