@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+</head>
+<body>
+<h1 id="maintitle">Example 0</h1>
+<p>Examples written by Peter Borkuti.</p>
+<p>Thanks for w3cschool.</p>
+<div class="normalclass">Retrieving by id</div>
+<div class="normalclass">Retrieving by tagname</div>
+<div class="normalclass">Retrieving by class (beware IE)</div>
+<script type="text/javascript">
+	var x=document.getElementById("maintitle");
+	var y=document.getElementsByTagName("p");
+	var z=document.getElementsByClassName("normalclass"); //IE?
+
+	console.group("elements");
+	console.log(x);
+	console.log(y);
+	console.log(z);
+	console.groupEnd();
+
+	console.group("texts");
+	console.log(x.innerHTML);
+	console.log(y[0].innerHTML);
+	console.log(z[0].innerHTML);
+	console.groupEnd();
+</script>
+</body>
+</html>

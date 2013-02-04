@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+</head>
+<body>
+<h1 id="maintitle">Example 1</h1>
+<p>Examples written by Peter Borkuti.</p>
+<p>Thanks for w3cschool.</p>
+<img id="image" src="dog1.jpg">
+<div class="normalclass">Normalclass</div>
+
+<script type="text/javascript">
+(function(){
+	var x=document.getElementById("maintitle");
+	var y=document.getElementsByTagName("img");
+	var z=document.getElementsByClassName("normalclass"); //IE?
+
+	x.innerHTML="Hello";
+	y[0].src="dog2.jpg";
+	z[0].style.color="red";
+}());
+</script>
+</body>
+</html>

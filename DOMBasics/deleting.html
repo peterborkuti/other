@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+</head>
+<body>
+<h1 id="maintitle">Example 3</h1>
+<p>Examples written by Peter Borkuti.</p>
+<p>Thanks for w3cschool.</p>
+<div class="normalclass">Deleting this</div>
+<div class="normalclass">div 2</div>
+<div class="normalclass">div 3</div>
+<script type="text/javascript">
+	var children = document.body.childNodes;
+	for (var i=0; i<children.length; i++) {
+		var child = children.item(i);
+		console.log(child.nodeName);
+		if (child.nodeName === "DIV") {
+			document.body.removeChild(child);
+		}
+	}
+	
+</script>
+</body>
+</html>

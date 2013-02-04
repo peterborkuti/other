@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+</head>
+<body>
+<h1 id="maintitle">Example 2</h1>
+<p>Examples written by Peter Borkuti.</p>
+<p>Thanks for w3cschool.</p>
+<table border="1">
+</table>
+
+<script type="text/javascript">
+	var t=document.getElementsByTagName("table")[0];
+	for(var r=1; r<5; r++) {
+		var row = t.insertRow(-1);
+		for(var c=1; c<10; c++) {
+			var cell=row.insertCell(-1);
+			cell.innerHTML=r+","+c;
+		}
+	}
+</script>
+</body>
+</html>
