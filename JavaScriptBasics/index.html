@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+</head>
 <body>
 <h1>Javascript Basics by examples</h1>
 <p>Examples written by Peter Borkuti.</br>
@@ -44,30 +46,175 @@ in source form as part of the Web page markup. We aimed to provide a "glue langu
 <li>C/Java syntax</li>
 </ul>
 
+<div style="display:none">
+<h3>excersizes</h3>
+<ol>
+<li></li>
+<li></li>
+</ol>
+<h3>homeworks</h3>
+<ol>
+<li></li>
+<li></li>
+</ol>
+</div>
+
 <h2>Start</h2>
 <a href="example0.html" >example 00.</a></br>
 <a href="example01.html">example 01.</a></br>
 <a href="example02.html">example 02.</a></br>
+
+<h3>excersizes</h3>
+<ol>
+<li>Write your name to the console with js in a html page</li>
+<li>Write your name to the console with an included js file</li>
+<li>Write your name and your birthday with two separate js files which included into one html</li>
+</ol>
+<h3>homeworks</h3>
+<ol>
+<li>Check <a href="http://www.w3schools.com/jsref/obj_window.asp">js reference's Window object</a></li>
+<li>alert your name</li>
+<li>print the contents of the window</li>
+<li>check confirm(),prompt()<li>
+<li>(hard)Create a html with js which reads user's input (a string) and alerts it. Be simple, without variables!<li>
+<li></li>
+</ol>
 <h2>Syntax and types:Number/String/Boolean</h2>
 <a href="example03.html">example 03.</a></br>
 <a href="example04.html">example 04.</a></br>
-<h3>null,undefined</h3>
+<h3>excersizes</h3>
+
+<ol>
+<li>write a quadratic equation solver</li>
+<ol>
+<li>pure js, without variables, without i/o, just the formula with numbers</li>
+<li>pure js, with variables, without i/o</li>
+<li>check if a variable is number, see <a href="http://www.w3schools.com/jsref/jsref_obj_global.asp">js globals</a> parseInt, Number, isNaN and <a href="http://www.w3schools.com/jsref/jsref_obj_number.asp">js ref</a>, Number</li>
+<li>convert a string to number</li>
+<li>use everything, prompt and alert</li>
+</ol>
+<li></li>
+<li></li>
+
+</ol>
+<h3>homeworks</h3>
+<p>In old days, programmers showed messages in browser's status bar. Now browsers disable this (annoying) feature,
+so you should enable this.
+In FF, use about:config as a web-address, then set dom.disable_window_status_change to false.
+</p>
+<ol>
+<li>Write a program which rotates your name in the status bar. See String object in js ref</li>
+<li></li>
+</ol>
+<h3>null,undefined, typeof, ==, ===</h3>
 <a href="example09.html">example 09.</a></br>
+<h3>excersizes</h3>
+<ol>
+<li>what is the type of bools?</li>
+<li>what is the type of strings?</li>
+<li>what is the type of characters?</li>
+<li>what is the type of integers?</li>
+<li>what is the type of floats?</li>
+<li>what is the type of null, NaN, undefined?</li>
+<li></li>
+</ol>
+<h3>homeworks</h3>
+<ol>
+<li>
+<p>write all the aboves (and any other which interests you) in a html/js for later reference</p>
+<p>If you know html/dom try to do it with dynamic html and a dynamic html table</p>
+</li>
+<li>Check the equality with == and === (double or triple eq. op.) of the literals : "",0,"0",false,"false",true,1,"true",null,0.00,"0.00"</li>
+</ol>
 <h2>Objects</h2>
 <h3>Object literal,retrieval, update, delete, reference, prototype</h3>
 <a href="example05.html">example 05.</a>
 <a href="http://perfectionkills.com/understanding-delete/">understanding delete</a>
+<h3>excersizes</h3>
+<ol>
+<li>write the properties of the window object</li>
+<li>write the properties of the navigator object</li>
+<li>write the properties of the screen object</li>
+<li>write the properties of the history object</li>
+<li>write the properties of the location object</li>
+<li></li>
+</ol>
+<h3>homeworks</h3>
+<p>Create a js which implements the well-known vehicle-car-sportcar object-hierarchy</p>
+
 <h3>Augmenting types</h3>
 <a href="example06.html">example 06.</a>
+<h3>excersizes</h3>
+<ol>
+<li>Augments numbers with round function. See <a href="http://www.w3schools.com/jsref/jsref_obj_math.asp">Math library</a></li>
+</ol>
+<h3>homeworks</h3>
+<p>there is no trim function in js. Adapt it!</p>
+<ol>
+<li>create ltrim which wipes whitespaces from the left of the string</li>
+<li>create rtrim which wipes whitespaces from the right of the string</li>
+<li>create trim</li>
+</ol>
 <h3>Reflection</h3>
 <a href="example07.html">example 07.</a>
+<h3>excersizes</h3>
+<ol>
+<li>Check "duck typeing" on the net</li>
+<li>check differences between javascript versions</li>
+<li>write js code which can guess the version of javascript runs on</li>
+</ol>
+<h3>homeworks</h3>
+<ol>
+<li>Check w3cschool's js dom reference</li>
+<li>emphasize the differences between browsers</li>
+<li>find features/functions/properties which implemented only in IE</li>
+<li>write code which can guess if it runs on IE based on your previous homework tasks</li>
+</ol>
 <h3>Minimize global variable usage</h3>
 <a href="example08.html">example 08.</a>
+<h3>excersizes</h3>
+<ol>
+<li>Check your webpages global objects</li>
+<li>Find js frameworks on the net and write down the name of it's global object(s)</li>
+<li>How can you implement in JS Java's package naming conventions?</li>
+</ol>
+<h3>homeworks</h3>
+<ol>
+<li>Rewrite all your homeworks to minimize it's global footstep</li>
+</ol>
 <h2>Functions</h2>
 <h3>Module pattern</h3>
 <a href="example12.html">example 12.</a> <a href="example12_.html">example 12_.</a>
+<h3>excersizes</h3>
+<ol>
+<li>write a sequencer module. A sequencer have a getter method and every time the get
+method called it gives a number which is greater by 1 than the number in the previous
+invocation</li>
+<li></li>
+</ol>
+<h3>homeworks</h3>
+<ol>
+<li>create a module with write-only-one setter methode. So a setter could be invoked many times, but
+the private variable behind the seeter method can be changed only the first invocation if the
+setter method</li>
+<li></li>
+</ol>
+
+
 <h3>this</h3>
-<a href="example11.html">example 11.</a> <a href="example11_.html">example 11_.</a>
+<p>function invocation patterns, apply, call</p>
+<a href="example11.html">example 11.</a> <a href="example11_.html">example 11_.</a><br>
+<a href="http://trephine.org/t/index.php?title=JavaScript_call_and_apply">explanation by Jim R. Wilson</a>
+
+<ol>
+<li></li>
+<li></li>
+</ol>
+<h3>homeworks</h3>
+<ol>
+<li></li>
+<li></li>
+</ol>
 <h2>Not mentioned</h2>
 <h3>Return</h3>
 If no return, undefined the returned value. With new, this.

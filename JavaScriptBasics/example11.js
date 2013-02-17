@@ -22,7 +22,7 @@ var b = {
 };
 
 //should be used with "new" keyword
-//every prototyped memeber will be reacheable by the object
+//every prototyped member will be reacheable by the object
 var C = function() {};
 C.prototype.name  = "protoC" ;
 C.prototype.a = function(s) {
