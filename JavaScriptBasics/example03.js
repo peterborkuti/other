@@ -1,26 +1,30 @@
+// numbers
+
 var a = 1;
-var b = 
-		"Hello";
-var c 
-		= 
-		false;
-var d = 10.5;
-var e = 'Nice';
-var f = 'Hello';
-var g = "1";
-console.group("+");
 console.log(a);
-console.log(a+d);
+var A = 10.5;
+console.log(a+A);
 
-console.log(b+e);
-console.log(a+c);
+// strings
 
-console.log(a+b);
+var a = "Hello";
+var b = 'Nice';
+var c = 1;
+console.log(a+b+c);
 
-console.log(a+d+" Ft");
-console.groupEnd();
+//loose typeing, boolean
 
-console.log(d+" floor = " + Math.floor(d));
+var a = false;
+console.log(a);
+a = -0.1;
+console.log(a);
+a = "Hello";
+console.log(a);
+
+var a 
+= 
+		27.85;
+console.log(a+" floor = " + Math.floor(a));
 
 if (c) {
 	console.log("YES");
