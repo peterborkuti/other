@@ -1,18 +1,27 @@
-// numbers
+// numbers, case-sensitivity
 
 var a = 1;
 console.log(a);
 var A = 10.5;
 console.log(a+A);
+var b = Number("1");
+console.log("parseInt('8')="+parseInt('8'));
+console.log("parseInt('08')="+parseInt('08'));
 
-// strings
+// strings, dynamic conversion
 
-var a = "Hello";
+var a = " Hello ";
 var b = 'Nice';
 var c = 1;
 console.log(a+b+c);
+console.log(a.length);
+console.log(a[0]);
+console.log(":"+a.trim()+":");
+var d = "\ud835\udc52"; // exponential:e
+console.log(d);
+console.log(d.length);
 
-//loose typeing, boolean
+//loose/weak typeing, boolean
 
 var a = false;
 console.log(a);
@@ -21,36 +30,85 @@ console.log(a);
 a = "Hello";
 console.log(a);
 
+//free-form language
+//but see later!
+
 var a 
 = 
 		27.85;
 console.log(a+" floor = " + Math.floor(a));
 
-if (c) {
+//c-style if
+
+if (2>1) {
 	console.log("YES");
 } else {
 	console.log("NO");
 };
 
+// == vs ===
+
+if ("1" == 1) {
+	console.log('"1" == 1');
+}
+if ((0.1 + 0.2) == 0.3) {
+	console.log(
+		"(0.1 + 0.2) == 0.3");
+}
+if ("1" !== 1) {
+	console.log("'1' !== 1");
+}
+
+//c-style for, but see later!
+
 for (var i=0; i<3; i+=1) {
 	console.log(i);
 };
 
-console.group("== vs ===");
+//c-style switch 1
 
-if (b == f) {
-	console.log(b);
+var a = 1;
+switch(a) {
+	case 1:
+		console.log("case 1");
+		break;
+	case 2:
+		console.log("case 2");
+		break;
+	default:
+		console.log("default");
+		break;
 }
 
-if (g == a) {
-	console.log(g+"=="+a);
+//c-style switch 2, strings!
+
+var a = "nice";
+switch(a) {
+	case 1:
+		console.log("case 1");
+		break;
+	case "nice":
+		console.log("case 'nice'");
+		break;
 }
 
-if (g === a) {
-	console.log(g+"==="+a);
+//c-style switch 3, ===
+
+var a = "1";
+switch(a) {
+	case 1:
+		console.log("case 1");
+		break;
+	case "1":
+		console.log("case '1'");
+		break;
+	default:
+		console.log("no luck");
 }
 
-console.groupEnd();
+
+//functions 1
+
 //say("Bad");
 
 function say(s) {
@@ -59,3 +117,25 @@ function say(s) {
 
 say("Good");
 
+//functions 2 - parameters 1
+
+function tell(s1,s2) {
+	console.log("I tell you more " + s1 + "," +s2);
+}
+
+tell("Good");
+tell("Good","Bad");
+tell("Good","Bad", "Other");
+
+//functions 2 - parameters 2
+
+function argTest() {
+	for (var i=0; i<arguments.length; i++) {
+		console.log(" arguments[" + i + "] = " + arguments[i]);
+	}
+}
+
+argTest();
+argTest("Good");
+argTest("Good","Bad");
+argTest("Good","Bad", "Other");
