@@ -14,7 +14,7 @@ console.log(boy);
 console.log(girl);
 
 boy.name="Jack";
-girl = object(boy);
+girl = Object.create(boy);
 girl.name="Lucy";
 
 console.log(boy);
