@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8"/>
+<title>ball 01</title>
+<style>
+#court {
+ width : 1000px;
+ height : 500px;
+ border-style: solid;
+ background-color: green;
+ position: absolute;
+}
+#ball {
+ width : 100px;
+ height : 50px;
+ border-style: solid;
+ background-color: red;
+ position: relative;
+ left: 100px;
+ top: 100px;
+}
+</style>
+</head>
+<html>
+<body onload="initCourt('court',1000,500);startBall('ball',100,100,200,200)" >
+<script src="ball_01.js">
+</script>
+<div id="court">
+<div id="ball"></div>
+
+</div>
+</body>
+</html>
