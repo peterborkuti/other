@@ -10,7 +10,7 @@
 	$(document).ready(function()
 	{ 
 		 $.ajax({
-			url:    'yui-core.js',
+			url:    'example_array.js',
 			success: function(code) {
 				$('code').text(code);
 				var brush = new SyntaxHighlighter.brushes.JScript(),
@@ -28,11 +28,13 @@
 		});
 	});	
 	</script>
-<title>yui-core</title>
+<title>example Array</title>
 </head>
 <html>
 <body>
-<script src="yui-core.js">
+<script src="myfunctions.js">
+</script>
+<script src="example_array.js">
 </script>
 <div id="source"></div>
 </body>

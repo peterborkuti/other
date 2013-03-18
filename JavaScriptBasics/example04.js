@@ -1,31 +1,54 @@
-var boy = {
-			'name': 'Joe',
-			'age': 10
-	};
-	
-console.log(boy);
+// object literal
 
-console.log("boy['name'] = " + boy['name']);
-console.log("boy.name = " + boy.name);
+var obj = {};
+var obj = { 'field1' : 'stringvalue' };
+var obj = { 'field1' : 1,
+			'field2' : 'Hello',
+			'field3' : true
+		  };
+var obj = { 'field1' : 
+			{ 
+				'field2' : 'Hello'
+			},
+			'field3' : true
+		  };
 
-boy['name']='Jack';
+//retrieving fields
 
-console.log(boy['height']);
+console.log(obj['field3']);
+console.log(obj.field3);
+console.log(obj['field3']['field2']);
+console.log(obj['field3'].field2);
 
-boy['weight']=68;
+for (var i in obj) {
+	console.log("obj["+i+"]="+ obj[i]);
+};
 
-console.log(boy);
+//adding/updateing fields
 
-boy['age']=undefined;
+obj['newfield1'] = 10;
+obj.newfield2 = 20;
 
-console.log(boy);
+//deleting fields
 
-for ( var i in boy) {
-	console.log(i + " ---- " + boy[i]);
-}
+obj.newfield2 = undefined;
+delete obj['newfield1'];
 
-delete boy['age'];
+//checking fields
 
-for ( var i in boy) {
-	console.log(i + " ---- " + boy[i]);
-}
+var obj = { 'a' : 1, 'b' : 1, 'c' : 1 };
+obj.b = undefined;
+delete obj.c;
+
+console.log('a' in obj);
+console.log(obj.a !== undefined);
+console.log(typeof (obj.a) !== 'undefined');
+
+console.log('b' in obj);
+console.log(obj.b !== undefined);
+
+console.log('c' in obj);
+console.log(obj.c !== undefined);
+
+
+
