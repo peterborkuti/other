@@ -6,6 +6,8 @@ for (var i=0; i<a.length; i++){
 
 console.log(a.length);
 a[a.length] = 40;
+a.length = 2;
+console.log(a);
 
 a[10] = 100;
 console.log(a.length);
@@ -26,3 +28,12 @@ var mmm = [ 1, "Hello", true,
 			
 console.log(mmm[3].a);
 console.log(mmm[3]['a']);
+
+var a = [0,1,2,3];
+a.slice(2,1);
+console.log(a);
+a.splice(2,1);
+console.log(a);
+a.splice(1,1,5);
+console.log(a);
+
