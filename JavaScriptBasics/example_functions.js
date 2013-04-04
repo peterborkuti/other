@@ -265,7 +265,15 @@ var c05_2 = c05("2",565,600,500);
 var c05_3 = c05("3",1000,1100,1000);
 */
 
-console.log("Object and functions");
+console.log("Object and functions I");
+
+f.prop = 1;
+function f() {
+	console.log(f.prop);
+}
+f();
+
+console.log("Object and functions II");
 
 var obj = {
 	x : 1,

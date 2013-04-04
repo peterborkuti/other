@@ -1,0 +1,42 @@
+<html>
+<head>
+<script type="text/javascript" src="yui/yui/yui.js"></script>
+<script type="text/javascript" src="yui/oop/oop.js"></script>
+<script>
+
+function A(name) {
+	this.name = name;
+};
+
+function B(age,name) {
+	B.superclass.constructor(name);
+	this.age = age
+};
+
+/*
+var Y = YUI({
+	filter:'raw',
+	root: 'yui'
+	}).use('oop');
+*/
+
+var Y = YUI().use('oop');
+Y.extend(A,Object);
+Y.extend(B,A);
+	
+var a = new A("a");
+var b = new B("b","ba");
+
+
+
+var bb = new B("bb","bba");
+
+console.log(a);
+console.log(b);
+console.log(bb);
+</script>
+</head>
+<body>
+
+</body>
+</html>
