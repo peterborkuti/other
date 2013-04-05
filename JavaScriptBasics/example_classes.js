@@ -1,4 +1,5 @@
 console.log("classes with constructor");
+
 (function() {
 	function A() {
 		this.fieldA = 'A';
@@ -6,7 +7,6 @@ console.log("classes with constructor");
 			console.log(s + "functionA : fieldA=" + this.fieldA);
 		}
 	};
-	//A.superclass = Object.prototype;
 
 	function B() {
 		this.fieldB = 'B';
@@ -47,18 +47,14 @@ console.log("classes with constructor");
 }());
 
 console.log("classes with Object.create");
-var A = Object.create(Object.prototype,{
-		fieldA : { value: 'A'},
-		functionA : { value: function(s) {console.log(s + "functionA : fieldA=" + this.fieldA)}}
-	}
-);
-//(function() {
-	/*
-	var A = Object.create(Object.prototype);
-	A = Object.defineProperty(A,"functionA", { value: function(s) {console.log(s + "functionA : fieldA=" + this.fieldA)}});
-	A = Object.defineProperty(A,"fieldA",{ value: 'A'});
-	*/
-	//A.superclass = Object.prototype;
+
+(function() {
+
+	var A = Object.create(Object.prototype,{
+			fieldA : { value: 'A'},
+			functionA : { value: function(s) {console.log(s + "functionA : fieldA=" + this.fieldA)}}
+		}
+	);
 
 	var B = Object.create(A, {
 		fieldB : {value : 'B'},
@@ -81,87 +77,18 @@ var A = Object.create(Object.prototype,{
 	var b = Object.create(B);
 	var c = Object.create(C);
 
-	/*
-	console.log("a instanceof A :"+(a instanceof A));
-	console.log("a instanceof B :"+(a instanceof B));
-	console.log("a instanceof C :"+(a instanceof C));
 
-	console.log("b instanceof A :"+(b instanceof A));
-	console.log("b instanceof B :"+(b instanceof B));
-	console.log("b instanceof C :"+(b instanceof C));
+	console.log("A.isPrototypeOf(a): "+(A.isPrototypeOf(a)));
+	console.log("B.isPrototypeOf(a): "+(B.isPrototypeOf(a)));
+	console.log("C.isPrototypeOf(a): "+(C.isPrototypeOf(a)));
+	
+	console.log("A.isPrototypeOf(b): "+(A.isPrototypeOf(b)));
+	console.log("B.isPrototypeOf(b): "+(B.isPrototypeOf(b)));
+	console.log("C.isPrototypeOf(b): "+(C.isPrototypeOf(b)));
+	
+	console.log("A.isPrototypeOf(c): "+(A.isPrototypeOf(c)));
+	console.log("B.isPrototypeOf(c): "+(B.isPrototypeOf(c)));
+	console.log("C.isPrototypeOf(c): "+(C.isPrototypeOf(c)));
 
-	console.log("c instanceof A :"+(c instanceof A));
-	console.log("c instanceof B :"+(c instanceof B));
-	console.log("c instanceof C :"+(c instanceof C));
-	*/
-//}());
+}());
 
-
-
-
-/*
-var A1 = {
-	fieldA1 : 1,
-	functionA1 : function() {}
-}
-var B1 = function() {};
-B1.fieldB1 = 2;
-B1.functionB1 = function() {};
-
-B1.prototype = A1;
-
-var a1 = Object.create(A1);
-var b1 = new B1;
-*/
-
-/*
-
-console.log("class01")
-
-function class01(p) {
-	var c = Object.create(class01.methods);
-	c.p = p;
-	return p;
-}
-
-class01.methods = {
-	print : function () { console.log(this.p) },
-	toString : function () { return "{ class01.p = " + this.p + " }" }
-}
-
-var c01_1 = class01(10);
-var c01_2 = class01(20);
-console.log(c01_1);
-console.log(c01_2);
-
-console.log("Class02")
-
-function Class02(p) {
-	this.p = p;
-}
-
-Class02.prototype = {
-	print : function () { console.log(this.p) },
-	toString : function () { return "{ Class02.p = " + this.p + " }" }
-}
-
-var c02_1 = new Class02(10);
-var c02_2 = new Class02(20);
-console.log(c02_1);
-console.log(c02_2);
-
-console.log("Class03")
-
-function Class03(p) {
-	this.p = p;
-}
-
-Class03.prototype.print = function () { console.log(this.p) };
-Class03.prototype.toString = function () { return "{ Class03.p = " + this.p + " }" }
-
-var c03_1 = new Class03(10);
-var c03_2 = new Class03(20);
-console.log(c03_1);
-console.log(c03_2);
-
-*/
