@@ -1,4 +1,4 @@
-console.log("function statement - parameters");
+console.info ("function statement - parameters");
 
 function say(s) {
 	return "I say "+s;
@@ -9,7 +9,15 @@ console.log(say(1));
 console.log(say());
 console.log(say("Hello","Nice"));
 
-console.log("globals");
+/*
+I say Hello
+I say 1
+I say undefined
+I say Hello
+*/
+
+console.info("globals");
+(function() {
 
 var n = 1;
 function f1(){
@@ -20,7 +28,15 @@ function f1(){
 f1();
 console.log(n);
 
-console.log("globals and locals I.");
+}());
+/*
+1
+2
+2
+*/
+console.info("globals and locals I.");
+
+(function() {
 
 var n = 1;
 function f2_1(){
@@ -31,7 +47,16 @@ function f2_1(){
 f2_1();
 console.log(n);
 
-console.log("globals and locals II.");
+}());
+/*
+undefined
+2
+1
+*/
+
+console.info("globals and locals II.");
+
+(function() {
 
 var n = 1;
 function f2_2(){
@@ -42,7 +67,16 @@ function f2_2(){
 }
 f2_2();
 
-console.log("variables - function scope");
+}());
+
+/*
+undefined
+2
+*/
+
+console.info("variables - function scope");
+
+(function() {
 
 function f3_1(){
 	console.log(i);
@@ -54,11 +88,27 @@ function f3_2(){
 		console.log(i);
 	}
 	console.log(i);
+	//f3_1();
 }
+//f3_1();
 f3_2();
 
+}());
 
-//function statement - hoisting I
+/*
+when calling f3_1:
+ReferenceError: i is not defined
+
+undefined
+0
+1
+2
+3
+*/
+
+console.info("function statement - hoisting I");
+
+(function() {
 
 console.log(say1("Hello - before"));
 
@@ -68,8 +118,33 @@ function say1(s) {
 
 console.log(say1("Hello - after"));
 
-//function expression - hoisting II
+}());
 
+console.info("function statement - hoisting II");
+
+(function() {
+
+console.log(say2("Hello - before"));
+
+function say1() {}
+
+function say2(s) {
+	say1();
+	say3();
+	return "I say1 "+s;
+}
+
+function say3() {}
+
+console.log(say2("Hello - after"));
+
+}());
+
+console.info("function expression - hoisting III");
+
+(function() {
+
+//TypeError: say2 is not a function
 //console.log(say2("Hello - before"));
 
 var say2 = function (s) {
@@ -78,7 +153,11 @@ var say2 = function (s) {
 
 console.log(say2("Hello - after"));
 
+}());
+
 //function expression - hoisting III
+
+(function() {
 /*
 var say4 = function say4(s) {
 	//"Mozilla error: invalid scope variables" when call
@@ -94,9 +173,10 @@ var say4 = function (s) {
 say4();
 */
 
+}());
 
-
-console.log("immediately invoking");
+console.info("immediately invoking");
+(function() {
 
 var f5_1 = function() {
 	return Math.random();
@@ -115,6 +195,7 @@ var f5_23 = (function() {
 })();
 
 (function () {
+	var V = "DISAPPEAR";
 	console.log("Invoked");
 }());
 
@@ -124,7 +205,11 @@ function () {
 }();
 */
 
-console.log("return");
+}());
+
+console.info("return");
+
+(function() {
 
 var r0_1 = function () {}
 console.log("r0_1 = " + r0_1());
@@ -160,6 +245,7 @@ var f5 = (function() {
 console.log("f5="+f5());
 console.log("f5="+f5());
 
+}());
 /*
 
 r0_1 = undefined
@@ -175,7 +261,8 @@ f5=0.7931443870571057
 
 */
 
-console.log("Nested function");
+console.info("Nested function");
+(function() {
 
 function f6(s) {
 	var i = 10;
@@ -187,7 +274,10 @@ function f6(s) {
 
 f6("Hello");
 
-console.log("Closures I");
+}());
+
+console.info("Closures I");
+(function() {
 
 var c0_0 = function () {
 	console.log("I am in c0_0")
@@ -233,8 +323,11 @@ var c0_41 = c0_4("Hello");
 c0_41();
 console.log(c0_41.toString());
 
+}());
 
-console.log("Closures II");
+console.info("Closures II");
+
+(function() {
 
 var c04 = function(start) {
 	return function() {
@@ -249,7 +342,11 @@ console.log("c04_2" + c04_2());
 console.log("c04_2" + c04_2());
 console.log("c04_1" + c04_1());
 
-console.log("Closures III");
+}());
+
+console.info("Closures III");
+
+(function() {
 
 var c05 = function(name,start,end,millis) {
 	function count() {
@@ -265,7 +362,10 @@ var c05_2 = c05("2",565,600,500);
 var c05_3 = c05("3",1000,1100,1000);
 */
 
-console.log("Object and functions I");
+}());
+
+console.info("Object and functions I");
+(function() {
 
 f.prop = 1;
 function f() {
@@ -273,7 +373,10 @@ function f() {
 }
 f();
 
-console.log("Object and functions II");
+}());
+
+console.info("Object and functions II");
+(function() {
 
 var obj = {
 	x : 1,
@@ -285,8 +388,10 @@ var obj = {
 console.log(obj);
 console.log(obj.f());
 
-console.log("invocations of functions");
+}());
 
+console.info("invocations of functions");
+(function() {
 console.log("Global:"+this);
 
 function h1() {
@@ -316,7 +421,10 @@ h1.apply(o2,[]);
 var a2 = [10,20,30];
 h1.apply(a2,[]);
 
-console.log("closure and this");
+}());
+
+console.info("closure and this");
+(function() {
 
 var o3 = {
 	y : 1
@@ -341,21 +449,5 @@ var h3 = function () {
 }
 
 h3.apply(o3,[]);
-/*
-var obj = {
-	a : 10,
-	f : function (s) {
-			console.log("obj.f()="+s+","+a);
-		}
-}
 
-obj.f("hello");
-*/
-/*
-function f() {
-	a : 1,
-	g : function() {
-		console.log(a);
-	}
-}
-*/
+}());

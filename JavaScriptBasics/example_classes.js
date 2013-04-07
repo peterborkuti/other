@@ -28,10 +28,6 @@ console.log("classes with constructor");
 	var b = new B;
 	var c = new C;
 
-	console.log("typeof a" + (typeof a));
-	console.log("typeof b" + (typeof b));
-	console.log("typeof c" + (typeof c));
-	
 	console.log("a instanceof A :"+(a instanceof A));
 	console.log("a instanceof B :"+(a instanceof B));
 	console.log("a instanceof C :"+(a instanceof C));
@@ -77,7 +73,6 @@ console.log("classes with Object.create");
 	var b = Object.create(B);
 	var c = Object.create(C);
 
-
 	console.log("A.isPrototypeOf(a): "+(A.isPrototypeOf(a)));
 	console.log("B.isPrototypeOf(a): "+(B.isPrototypeOf(a)));
 	console.log("C.isPrototypeOf(a): "+(C.isPrototypeOf(a)));
@@ -92,3 +87,45 @@ console.log("classes with Object.create");
 
 }());
 
+console.log("functional inheritance");
+
+(function() {
+
+	var A = function (id) {
+			return {
+				fieldA : 'A',
+				functionA : function(s) {console.log(s + "functionA : (fieldA,id)=" + this.fieldA + "," + id)}
+			}
+	};
+
+	var B = function (id) {
+		var that = A(id);
+		that.fieldB = 'B';
+		that.functionB = function(s) {
+			console.log(s + "functionB : (fieldB,id)=" + that.fieldB + "," + id);
+		}
+		return that
+	};
+	
+
+	var C = function (id) {
+		var that = B(id);
+		that.fieldC = 'C';
+		that.functionC = function(s) {
+				console.log(s + "functionC : (fieldC,id)=" + that.fieldC + "," + id);
+		}
+		return that
+	};
+
+	var a = A(1);
+	var b = B(2);
+	var c = C(3);
+
+	console.log("a");
+	console.dir(a);
+	console.log("b");
+	console.dir(b);
+	console.log("c");
+	console.dir(c);
+
+}());
