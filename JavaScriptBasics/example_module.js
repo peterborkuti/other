@@ -1,4 +1,4 @@
-console.log("Module pattern");
+console.info("Module pattern");
 
 console.log("I. create namespace");
 

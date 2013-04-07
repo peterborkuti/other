@@ -1,4 +1,4 @@
-console.log("inheritance with constructor");
+console.info("inheritance with constructor");
 
 (function() {
 	function A() {
@@ -42,7 +42,7 @@ console.log("inheritance with constructor");
 
 }());
 
-console.log("inheritance with Object.create");
+console.info("inheritance with Object.create");
 
 (function() {
 
@@ -87,7 +87,7 @@ console.log("inheritance with Object.create");
 
 }());
 
-console.log("functional inheritance");
+console.info("functional inheritance");
 
 (function() {
 
@@ -104,6 +104,11 @@ console.log("functional inheritance");
 		that.functionB = function(s) {
 			console.log(s + "functionB : (fieldB,id)=" + that.fieldB + "," + id);
 		}
+		that.openRecursionForC = function() {
+			console.log("B openRecursion fieldC = " + that.fieldC);
+			that.functionC("B openRecursion :");
+		}
+			
 		return that
 	};
 	
@@ -127,5 +132,8 @@ console.log("functional inheritance");
 	console.dir(b);
 	console.log("c");
 	console.dir(c);
+	
+	console.log("openRecursion");
+	c.openRecursionForC();
 
 }());
