@@ -91,3 +91,10 @@ a.length = 3;
 a=Array.prototype.slice.apply(a,[0]);
 console.log(a.slice(0));
 
+console.log("Arrays are objects");
+
+var a = [0,1,2];
+a.myField = 'a';
+
+console.log("a.myField = "+a.myField);
+
