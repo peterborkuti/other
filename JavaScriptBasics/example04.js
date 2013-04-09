@@ -17,8 +17,8 @@ var obj = { 'field1' :
 
 console.log(obj['field3']);
 console.log(obj.field3);
-console.log(obj['field3']['field2']);
-console.log(obj['field3'].field2);
+console.log(obj['field1']['field2']);
+console.log(obj['field1'].field2);
 
 for (var i in obj) {
 	console.log("obj["+i+"]="+ obj[i]);
