@@ -11,7 +11,9 @@ table,th, td
 {
 border: 1px solid black;
 }
-div { border-style:none; width:150px; height:150px;}
+div { border-style:none; width:150px; height:150px;position: absolute;}
+#map { width:1350px; height:1050px; border-style: solid; position:relative;}
+#viewport { width:1050px; height:750px; position:absolute; left:150px; top:150px; border-style:solid;}
 
 </style>
 <script src="map.js">
@@ -19,9 +21,10 @@ div { border-style:none; width:150px; height:150px;}
 </head>
 <html>
 <body onload="initGame()">
-<table>
-
-</table>
+<div id="map">
+    <div id="viewport">
+    </div>
+</div>
 
 </body>
 </html>

@@ -2,8 +2,8 @@ function initGame() {
     "use strict";
 
     var divs,
-		ROWNUM = 6,
-		COLNUM = 10,
+		ROWNUM = 7,
+		COLNUM = 9,
 		TILENUM = 8,
 		TILEWIDTH = 150,
         emptyPos = 0,
@@ -89,18 +89,25 @@ function initGame() {
 	}
 
  	function init() {
-		var i, r, c, row, cell, table;
+		var c, r, i, t, e, div, row, table, style;
 
-		table = document.getElementsByTagName('table')[0];
+		table = document.getElementById('map');
 		
 		for (r = 0; r < ROWNUM; r += 1) {
-			row = table.insertRow(-1);
-			for (c = 0; c < COLNUM; c += 1) {
-				cell = row.insertCell(-1);
-				cell.innerHTML = '<div></div>';
-			}
+            for (c = 0; c < COLNUM; c += 1) {
+                div = document.createElement('div');
+                style = div.style;
+                style.backgroundImage = "url(tiles.png)";
+                t = getRand(0,TILENUM-1);
+                style.backgroundPosition = (t*TILEWIDTH)+"px 0px";
+                div.tilenum = t;
+                style.top = (r*TILEWIDTH)+"px";
+                style.left = (c*TILEWIDTH)+"px";
+                table.appendChild(div);
+            }
 		}
 
+        /*
 		divs = document.getElementsByTagName('div');
 		divs = Array.prototype.slice.apply(divs,[0]);		
 
@@ -113,6 +120,7 @@ function initGame() {
 				div.tilenum = t;
 			}
 		)
+        */
 	}
     
     init();
