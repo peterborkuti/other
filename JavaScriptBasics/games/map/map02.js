@@ -5,37 +5,22 @@ function initGame() {
 			COLNUM = 6,
 			TILENUM = 8,
 			TILEWIDTH = 150,
-			TILEHEIGHT = 150;
+			TILEHEIGHT = 150,
+			WAITTIME = 50; //msec
 			
     var divs,
 		map = document.getElementById('map'),
 		mapStyle = map.style,
 		viewport = document.getElementById('viewport'),
 		scrollDir = 1,
-		scrollVel = 2; //velocity: 0,1,2, etc for bit shifting
+		scrollVel = 2, //velocity: 0,1,2, etc for bit shifting
+		tileStyleMatrix = [];
 
 	function getRand(a,b) {
 		return Math.floor(Math.random()*(b-a+1)+a);
 	}
 
-    function setOnClickXY(coord) {
-
-        var i = toPos(coord);
-		divs[i].onclick = getSwapTileWithEmpty(i);
-
-    }
-
-	function toPos(coord) {
-		return (coord.y * N + coord.x)
-	}
-
-	function toXY(num) {
-        var x = num % N;
-        var y = Math.floor(num / N);
-
-		return { 'x': x, 'y': y }
-	}
-	
+ 
 	function initDoc() {
 		mapStyle.width = (COLNUM*TILEWIDTH)+"px";
 		mapStyle.height = (ROWNUM*TILEHEIGHT)+"px";
@@ -48,28 +33,61 @@ function initGame() {
 	}
 
  	function init() {
-		var c, r, i, t, e, div, row, style;
+		var c, r, div, row, style;
 
 		initDoc();
 
 		for (r = 0; r < ROWNUM; r += 1) {
+			tileStyleMatrix[r] = [];
             for (c = 0; c < COLNUM; c += 1) {
                 div = document.createElement('div');
                 style = div.style;
                 style.backgroundImage = "url(tiles.png)";
-                t = getRand(0,TILENUM-1);
-                style.backgroundPosition = (t*TILEWIDTH)+"px 0px";
-                div.tilenum = t;
+                style.backgroundPosition = (getRand(0,TILENUM-1)*TILEWIDTH)+"px 0px";
                 style.top = (r*TILEHEIGHT)+"px";
                 style.left = (c*TILEWIDTH)+"px";
 				style.position = "absolute";
 				style.height = (TILEHEIGHT)+"px";
                 style.width = (TILEWIDTH)+"px";
-				//div.setAttribute("class", "tile");
-		
                 map.appendChild(div);
+				tileStyleMatrix[r][c] = style;
             }
 		}
+		
+	}
+	
+	function scrollTilesRight() {
+		var r, c, C;
+		C = tileStyleMatrix[0].length-1;
+		
+		for (r = 0; r < tileStyleMatrix.length; r += 1) {
+			for ( c = C ; c > 0; c -= 1) {
+				tileStyleMatrix[r][c].backgroundPosition = tileStyleMatrix[r][c-1].backgroundPosition;
+			}
+		}
+	}
+	
+	function addTilesLeft() {
+		var r;
+		for (r = 0; r < tileStyleMatrix.length; r += 1) {
+			tileStyleMatrix[r][0].backgroundPosition = (getRand(0,TILENUM-1)*TILEWIDTH)+"px 0px";;
+		}	
+	}
+
+	function scrollMapRight(){
+		if (map.xPos >= TILEWIDTH) {
+			scrollTilesRight();
+			addTilesLeft();
+			map.xPos = 1 << scrollVel;
+			setTimeout(scrollMapRight,WAITTIME/2);
+		} else {
+			map.xPos += 1 << scrollVel;
+			setTimeout(scrollMapRight,WAITTIME);
+		}
+		
+		mapStyle.left = map.xPos + "px";
+		
+		
 	}
 	
 	function scroll(){
@@ -78,10 +96,10 @@ function initGame() {
 		map.xPos += scrollDir << scrollVel;
 		mapStyle.left = map.xPos + "px";
 		
-		setTimeout(scroll,10);
+		setTimeout(scroll,100);
 	}
     
     init();
-	scroll();
+	scrollMapRight();
 
 }
