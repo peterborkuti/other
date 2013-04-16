@@ -1,4 +1,5 @@
 console.info ("function statement - parameters");
+(function() {
 
 function say(s) {
 	return "I say "+s;
@@ -9,11 +10,83 @@ console.log(say(1));
 console.log(say());
 console.log(say("Hello","Nice"));
 
+}());
 /*
 I say Hello
 I say 1
 I say undefined
 I say Hello
+*/
+
+console.info ("function arguments I");
+(function() {
+
+function say() {
+    for (var i in  arguments) {
+        console.log(
+            "arguments[" + i +
+            "]:" + arguments[i]);
+    }
+}
+
+say("Hello",1,true, {x:1, y:2});
+
+}());
+
+/*
+arguments[0]:Hello
+arguments[1]:1
+arguments[2]:true
+arguments[3]:[object Object]
+*/
+
+console.info ("function arguments II");
+(function() {
+
+function say(a,b) {
+    var t = arguments[0];
+    arguments[0] = arguments[1];
+    arguments[1] = t;
+    
+    console.log(a + "," + b);
+}
+
+say(1,2);
+
+}());
+
+/*
+2,1
+*/
+
+console.info ("function arguments III");
+(function() {
+
+function say() {
+    return arguments.slice(0,2);
+}
+
+console.log(say([0,1,2,3,4]));
+
+}());
+
+/*
+TypeError: arguments.slice is not a function
+*/
+
+(function() {
+
+function say() {
+    var a = Array.prototype.slice.apply(arguments,[0]);
+    return a.slice(0,2);
+}
+
+console.log(say(0,1,2,3,4));
+
+}());
+
+/*
+[ 0, 1]
 */
 
 console.info("globals");
@@ -120,6 +193,11 @@ console.log(say1("Hello - after"));
 
 }());
 
+/*
+I say1 Hello - before
+I say1 Hello - after
+*/
+
 console.info("function statement - hoisting II");
 
 (function() {
@@ -140,12 +218,16 @@ console.log(say2("Hello - after"));
 
 }());
 
+/*
+I say1 Hello - before
+I say1 Hello - after
+*/
+
 console.info("function expression - hoisting III");
 
 (function() {
 
-//TypeError: say2 is not a function
-//console.log(say2("Hello - before"));
+console.log(say2("Hello - before"));
 
 var say2 = function (s) {
 	return "I say2 "+s;
@@ -155,7 +237,12 @@ console.log(say2("Hello - after"));
 
 }());
 
-//function expression - hoisting III
+/*
+TypeError: say2 is not a function
+I say2 Hello - after
+*/
+
+//console.info("function expression - hoisting IV");
 
 (function() {
 /*
@@ -194,6 +281,11 @@ var f5_23 = (function() {
 	return Math.random();
 })();
 
+console.log("f5_1::"+f5_1.toString());
+console.log("f5_21::"+f5_21.toString());
+console.log("f5_22::"+f5_22.toString());
+console.log("f5_23::"+f5_23.toString());
+
 (function () {
 	var V = "DISAPPEAR";
 	console.log("Invoked");
@@ -206,42 +298,80 @@ function () {
 */
 
 }());
+/*
+f5_1::function () {
+	return Math.random();
+}
+f5_21::0.23744921773445204
+f5_22::0.11122406232591087
+f5_23::0.46325502661698104
+Invoked
+*/
 
 console.info("return");
 
 (function() {
 
 var r0_1 = function () {}
+
 console.log("r0_1 = " + r0_1());
 console.log("new r0_1 = " + (new r0_1()));
+
+/*
+r0_1 = undefined
+new r0_1 = [object Object]
+*/
 
 var r0_2 = function () {
 	return;
 }
+
 console.log("r0_2 = " + r0_2());
 console.log("new r0_2 = " + (new r0_2()));
+
+/*
+r0_2 = undefined
+new r0_2 = [object Object]
+*/
 
 var r1 = function () {
 	return 1;
 }
+
 console.log("r1 = " + r1());
 console.log("new r1 = " + (new r1()));
+
+/*
+r1 = 1
+new r1 = [object Object]
+*/
 
 var r2 = function () {
 	return { "a":1, "b":2 };
 }
+
 console.log("r2 = " + r2());
+
+/*
+r2 = [object Object]
+*/
 
 var r3 = function () {
 	return [ 1,2,3 ];
 }
+
 console.log("r3 = " + r3());
+
+/*
+r3 = 1,2,3
+*/
 
 var f5 = (function() {
 	return function() { 
 		return Math.random()
 	}
 })();
+
 console.log("f5="+f5());
 console.log("f5="+f5());
 

@@ -69,7 +69,7 @@ function initGame() {
 			getSwapTileWithEmpty(n[r])();
 			
 			if (run) {
-				setTimeout(moveOne, 1000);
+				setTimeout(moveOne, 500);
 			} else {
 				table[0].onclick = "";
 				setOnClicks();

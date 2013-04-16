@@ -8,7 +8,7 @@ function initGame(params) {
 			TILEHEIGHT = params && params.tileHeight || TILEWIDTH,
 			WAITTIME = params && params.waitTime || 50, //msec
 			WAITTIME2 = Math.floor(WAITTIME/2),
-			TILEURL = params && params.tileURL || 'tiles.png',
+			TILEURL = params && params.tileURL || 'stars.png',
 			MAPID = params && params.mapID || 'map',
 			VIEWPORTID = params && params.viewportID || 'viewport',
 			VELOCITY = params && params.velocity || 2,

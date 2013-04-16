@@ -4,23 +4,25 @@
 <title>Map by Peter Borkuti</title>
 <style>
 
+body { background-color: black }
+
 #map { border-style: none; border-width: 0px; border-color: black; position:absolute; top: 0px; left: 0px;}
-#viewport { position:absolute; border-style:none solid none solid;  border-top-width: 0px; border-bottom-width: 0px; z-index:1000; }
+#viewport { position:absolute; border-style:none solid none solid;  border-top-width: 0px; border-bottom-width: 0px; z-index:1001; }
 
 #map1 { border-style: none; border-width: 0px; border-color: black; position:absolute; top: 800px; left: 0px;}
-#viewport1 { position:absolute; border-style:none solid none solid;  border-top-width: 0px; border-bottom-width: 0px; z-index:1001; }
+#viewport1 { position:absolute; border-style:none solid none solid;  border-top-width: 0px; border-bottom-width: 0px; z-index:1000; }
 
 </style>
 <script src="map02.js">
 </script>
 </head>
 <html>
-<body onload="initGame({rowNum:4, colNum:7});initGame({rowNum:2, colNum:3, mapID: 'map1', viewportID: 'viewport1', top:200, left:300, velocity:1});">
+<body onload="initGame({rowNum:4, colNum:7, velocity:1});initGame({rowNum:2, colNum:7, mapID: 'map1', viewportID: 'viewport1', top:200});">
 <div id="viewport"></div>
 <div id="map">
 </div>
 
-<div id="viewport1"></div>
+<div id="viewport1"><h1 style="color: white; text-align: center;">Parallax scroll</h1></div>
 <div id="map1">
 </div>
 
