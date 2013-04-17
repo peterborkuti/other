@@ -287,6 +287,10 @@ console.log("f5_22::"+f5_22.toString());
 console.log("f5_23::"+f5_23.toString());
 
 (function () {
+    /* 
+    Our code, which runs immediately, does brilliant things
+    but does not touch globals
+    */
 	var V = "DISAPPEAR";
 	console.log("Invoked");
 }());
@@ -314,46 +318,57 @@ console.info("return");
 
 var r0_1 = function () {}
 
-console.log("r0_1 = " + r0_1());
-console.log("new r0_1 = " + (new r0_1()));
+console.log("r0_1 = ");
+console.log(r0_1());
+console.log("new r0_1 = ");
+console.log(new r0_1());
+
 
 /*
-r0_1 = undefined
-new r0_1 = [object Object]
+
 */
 
 var r0_2 = function () {
 	return;
 }
 
-console.log("r0_2 = " + r0_2());
-console.log("new r0_2 = " + (new r0_2()));
+console.log("r0_2 = ");
+console.log(r0_2());
+console.log("new r0_2 = ");
+console.log(new r0_2());
+
 
 /*
-r0_2 = undefined
-new r0_2 = [object Object]
+
 */
 
 var r1 = function () {
 	return 1;
 }
 
-console.log("r1 = " + r1());
-console.log("new r1 = " + (new r1()));
+console.log("r1 = ");
+console.log(r1());
+console.log("new r1 = ");
+console.log(new r1());
 
 /*
-r1 = 1
-new r1 = [object Object]
+
 */
 
 var r2 = function () {
 	return { "a":1, "b":2 };
 }
 
-console.log("r2 = " + r2());
-
+console.log("r2 = ");
+console.log(r2());
+console.log("new r2 = ");
+console.log(new r2());
 /*
-r2 = [object Object]
+r2 = 
+Object { a=1, b=2 }
+
+new r2 = 
+Object { a=1, b=2}
 */
 
 var r3 = function () {
@@ -375,6 +390,10 @@ var f5 = (function() {
 console.log("f5="+f5());
 console.log("f5="+f5());
 
+/*
+f5=0.7421820680177672
+f5=0.7931443870571057
+*/
 }());
 /*
 
@@ -390,6 +409,7 @@ f5=0.7421820680177672
 f5=0.7931443870571057
 
 */
+
 
 console.info("Nested function");
 (function() {
@@ -519,6 +539,49 @@ console.log(obj);
 console.log(obj.f());
 
 }());
+
+console.info("constructor");
+
+//Show it in firefox and check the console during alerts!
+//When is GLOBAL impacted?
+
+(function() {
+    var GLOBAL = this;
+
+    function MyConstructor(a,b) {
+        this.a = a;
+        this.b = b;
+        //return this;
+    }
+
+    var m1 = new MyConstructor(1,2);
+    console.group("var m1 = new MyConstructor(1,2)");
+    console.dir(m1);
+    console.groupEnd();
+    console.group("GLOBAL");
+    console.dir(GLOBAL);
+    console.groupEnd();
+    alert("new MyConstructor");
+
+    console.group("var m2 = MyConstructor(1,2)");
+    var m2 = MyConstructor(1,2);
+    console.groupEnd();
+    console.dir(m2);
+    console.group("GLOBAL");
+    console.dir(GLOBAL);
+    console.groupEnd();
+    alert("var m2 = MyConstructor");
+
+    console.group("MyConstructor(3,4)");
+    MyConstructor(3,4);
+    console.groupEnd();
+    console.group("GLOBAL");
+    console.dir(GLOBAL);
+    console.groupEnd();
+    alert("MyConstructor(3,4)");
+
+}());
+
 
 console.info("invocations of functions");
 (function() {
