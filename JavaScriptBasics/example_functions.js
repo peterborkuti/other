@@ -585,7 +585,8 @@ console.info("constructor");
 
 console.info("invocations of functions");
 (function() {
-console.log("Global:"+this);
+console.log("Global:");
+console.log(this);
 
 function h1() {
 	console.log(this);
@@ -642,5 +643,75 @@ var h3 = function () {
 }
 
 h3.apply(o3,[]);
+
+}());
+
+console.info("function as parameter (callback)");
+console.info("synchronous callback");
+
+(function() {
+
+function arraySum(array) {
+    var s = array[0], i;
+    for (i = 1; i< array.length; i++) {
+        s += array[i];
+    }
+    return s
+}
+
+console.log(arraySum([1,2,3,4]));
+
+function sum(a,b) {
+    return  a + b
+}
+
+function arrayWalk(array, f) {
+    var s = array[0], i;
+    for (i = 1; i< array.length; i++) {
+        s = f(s,array[i]);
+    }
+    return s
+}
+
+console.log(arrayWalk([1,2,3,4], sum));
+
+function mul(a,b) {
+    return a * b
+}
+
+console.log(arrayWalk([1,2,3,4], mul));
+
+}());
+
+console.info("asynchronous callback");
+
+(function() {
+
+function say(s) {
+    console.log(s);
+}
+
+function myTimer(f, 
+console.log(arraySum([1,2,3,4]));
+
+function sum(a,b) {
+    return  a + b
+}
+
+function arrayWalk(array, f) {
+    var s = array[0], i;
+    for (i = 1; i< array.length; i++) {
+        s = f(s,array[i]);
+    }
+    return s
+}
+
+console.log(arrayWalk([1,2,3,4], sum));
+
+function mul(a,b) {
+    return a * b
+}
+
+console.log(arrayWalk([1,2,3,4], mul));
 
 }());
