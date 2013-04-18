@@ -661,6 +661,10 @@ function arraySum(array) {
 
 console.log(arraySum([1,2,3,4]));
 
+/*
+10
+*/
+
 function sum(a,b) {
     return  a + b
 }
@@ -675,43 +679,113 @@ function arrayWalk(array, f) {
 
 console.log(arrayWalk([1,2,3,4], sum));
 
+/*
+10
+*/
+
 function mul(a,b) {
     return a * b
 }
 
 console.log(arrayWalk([1,2,3,4], mul));
+
+/*
+24
+*/
+
+var sum = 0;
+[1,2,3,4].forEach(
+	function (element, index, array) {
+		sum += element
+	});
+console.log(sum);
+
+/*
+10
+*/
+
+var a = [1,2,3,4].map(
+	function (e,i,a) { return e*e });
+console.log(a);
+
+/*
+[1, 4, 9, 16]
+*/
+
+console.log([9,16,25].map(Math.sqrt));
+
+/*
+[3, 4, 5]
+*/
+
+var a = ["1","2","3"].map(parseInt);
+console.log(a);
+
+/*
+[1, NaN, NaN]
+*/
+
+var a = ["1","2","3"].map(
+	function (e) { return parseInt(e,10) });
+console.log(a);
+
+/*
+[1, 2, 3]
+*/
+
+var a = [1,2,3,4].filter(
+	function (e,i,a) { return i % 2 });
+console.log(a);
+
+/*
+[2, 4]
+*/
+
 
 }());
 
-console.info("asynchronous callback");
+console.info("asynchronous callback I");
 
 (function() {
 
-function say(s) {
-    console.log(s);
+function say() {
+	console.log("hello");
 }
 
-function myTimer(f, 
-console.log(arraySum([1,2,3,4]));
+setTimeout(say,500);
+console.log("timeout set");
 
-function sum(a,b) {
-    return  a + b
+}());
+
+console.info("asynchronous callback II");
+
+(function() {
+
+function say() {
+	console.log("hello");
 }
 
-function arrayWalk(array, f) {
-    var s = array[0], i;
-    for (i = 1; i< array.length; i++) {
-        s = f(s,array[i]);
-    }
-    return s
+function timer(f, millis, n) {
+	function callCallback() {
+		n -= 1;
+		f();
+		if (n>0) {
+			setTimeout(callCallback, millis)
+		}		
+	}
+
+	callCallback();
 }
 
-console.log(arrayWalk([1,2,3,4], sum));
+timer(say,500,10);
+console.log("timeout set");
 
-function mul(a,b) {
-    return a * b
-}
+}());
 
-console.log(arrayWalk([1,2,3,4], mul));
+console.info("method chaining (cascade)");
+
+(function() {
+
+
 
 }());

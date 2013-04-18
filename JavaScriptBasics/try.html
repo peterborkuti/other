@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8"/>
+<script>
+function say() {
+	console.log("hello");
+}
+
+function timer(f, millis, n) {
+	function callCallback() {
+		n -= 1;
+		f();
+		if (n>0) {
+			setTimeout(callCallback, millis)
+		}		
+	}
+
+	callCallback();
+}
+
+timer(say,500,10);
+console.log("timeout set");
+</script>
+</head>
+</html>
