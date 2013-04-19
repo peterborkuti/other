@@ -2,24 +2,25 @@
 <head>
 <meta charset="UTF-8"/>
 <script>
+(function() {
+
+var r = new XMLHttpRequest();
+
 function say() {
-	console.log("hello");
+    if ( this.readyState == 4 && this.status == 200 ) {
+        console.log("Response : " + this.responseText);
+    }
 }
 
-function timer(f, millis, n) {
-	function callCallback() {
-		n -= 1;
-		f();
-		if (n>0) {
-			setTimeout(callCallback, millis)
-		}		
-	}
+r.onreadystatechange = say;
 
-	callCallback();
-}
+r.open("GET","http://localhost:1337/", true);
 
-timer(say,500,10);
-console.log("timeout set");
+r.send();
+
+console.log("Request sent");
+
+}());
 </script>
 </head>
 </html>

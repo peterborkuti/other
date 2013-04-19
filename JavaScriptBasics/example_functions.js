@@ -325,7 +325,10 @@ console.log(new r0_1());
 
 
 /*
-
+r0_1 = 
+undefined
+new r0_1 = 
+Object {}
 */
 
 var r0_2 = function () {
@@ -339,7 +342,10 @@ console.log(new r0_2());
 
 
 /*
-
+r0_2 = 
+undefined
+new r0_2 = 
+Object {}
 */
 
 var r1 = function () {
@@ -352,7 +358,10 @@ console.log("new r1 = ");
 console.log(new r1());
 
 /*
-
+r1 = 
+1
+new r1 = 
+Object {}
 */
 
 var r2 = function () {
@@ -363,6 +372,7 @@ console.log("r2 = ");
 console.log(r2());
 console.log("new r2 = ");
 console.log(new r2());
+
 /*
 r2 = 
 Object { a=1, b=2 }
@@ -395,21 +405,6 @@ f5=0.7421820680177672
 f5=0.7931443870571057
 */
 }());
-/*
-
-r0_1 = undefined
-new r0_1 = [object Object]
-r0_2 = undefined
-new r0_2 = [object Object]
-r1 = 1
-new r1 = [object Object]
-r2 = [object Object]
-r3 = 1,2,3
-f5=0.7421820680177672
-f5=0.7931443870571057
-
-*/
-
 
 console.info("Nested function");
 (function() {
@@ -516,6 +511,8 @@ var c05_3 = c05("3",1000,1100,1000);
 
 console.info("Object and functions I");
 (function() {
+
+//functions are objects
 
 f.prop = 1;
 function f() {
@@ -744,7 +741,39 @@ console.log(a);
 
 }());
 
+console.info("synchronous callback - AJAX");
+//show it in firefox
+
+(function() {
+
+var r = new XMLHttpRequest();
+
+function say() {
+    if ( this.readyState == 4 &&
+         this.status == 200 ) {
+        console.log("Response : " +
+            this.responseText);
+    }
+}
+
+r.onreadystatechange = say;
+
+r.open("GET","http://localhost:1337/", false);
+
+r.send();
+
+console.log("Request sent");
+
+}());
+
+/*
+Response : hello world
+Request sent
+undefined
+*/
+
 console.info("asynchronous callback I");
+//show it in firefox
 
 (function() {
 
@@ -758,6 +787,7 @@ console.log("timeout set");
 }());
 
 console.info("asynchronous callback II");
+//show it in firefox
 
 (function() {
 
@@ -782,10 +812,110 @@ console.log("timeout set");
 
 }());
 
-console.info("method chaining (cascade)");
+console.info("asynchronous callback III");
+//show it in firefox
 
 (function() {
 
+function say() {
+	console.log("hello");
+}
 
+function timer(f, millis, n) {
+	function callCallback(n) {
+		if (n>0) {
+            f();
+			setTimeout(
+                function () { callCallback(n-1) }, millis)
+		}		
+	}
+
+	callCallback(n);
+}
+
+timer(say,500,10);
+console.log("timeout set");
+
+}());
+
+console.info("asynchronous callback - AJAX");
+//show it in firefox
+
+(function() {
+
+var r = new XMLHttpRequest();
+
+function say() {
+    if ( this.readyState == 4 &&
+         this.status == 200 ) {
+        console.log("Response : " +
+            this.responseText);
+    }
+}
+
+r.onreadystatechange = say;
+
+r.open("GET","http://localhost:1337/", true);
+
+r.send();
+
+console.log("Request sent");
+
+}());
+
+/*
+Request sent
+undefined
+Response : hello world
+*/
+
+console.info("method chaining (cascade)");
+
+(function() {
+    var o = { a : 1, b : 2 };
+
+    function printField01(obj, fieldName) {
+        console.log(fieldName +
+            "'s value is '" +
+            obj[fieldName] + "'");
+    }
+
+    printField01(o,'a');
+    printField01(o,'b');
+
+    /*
+    a's value is '1'
+    b's value is '2'
+    */
+    
+    var o = { a : 1, b : 2 };
+
+    function printField02(obj, fieldName) {
+        console.log(fieldName +
+            "'s value is '" +
+            obj[fieldName] + "'");
+        return obj
+    }
+
+    printField02(printField02(o,'a'),'b');
+    
+    /*
+    a's value is '1'
+    b's value is '2'
+    */ 
+    
+    Object.prototype.printField = function(fieldName) {
+        console.log(fieldName +
+            "'s value is '" +
+            this[fieldName] + "'");
+        return this
+    }
+
+    o.printField('a').printField('b');
+    
+    /*
+    a's value is '1'
+    b's value is '2'
+    */ 
 
 }());

@@ -4,14 +4,18 @@ console.info("inheritance with constructor");
 	function A() {
 		this.fieldA = 'A';
 		this.functionA = function(s) {
-			console.log(s + "functionA : fieldA=" + this.fieldA);
+			console.log(s + 
+                "functionA : fieldA=" +
+                this.fieldA);
 		}
 	};
 
 	function B() {
 		this.fieldB = 'B';
 		this.functionB = function(s) {
-			console.log(s + "functionB : fieldB=" + this.fieldB);
+			console.log(s + 
+                "functionB : fieldB=" +
+                this.fieldB);
 		};
 	}
 	B.prototype = new A;
@@ -19,7 +23,9 @@ console.info("inheritance with constructor");
 	function C() {
 		this.fieldC = 'C';
 		this.functionC = function(s) {
-			console.log(s + "functionC : fieldC=" + this.fieldC);
+			console.log(s + 
+                "functionC : fieldC=" +
+                this.fieldC);
 		};
 	}
 	C.prototype = new B;
@@ -48,23 +54,34 @@ console.info("inheritance with Object.create");
 
 	var A = Object.create(Object.prototype,{
 			fieldA : { value: 'A'},
-			functionA : { value: function(s) {console.log(s + "functionA : fieldA=" + this.fieldA)}}
+			functionA : { 
+                value: function(s) {
+                    console.log(s +
+                        "functionA : fieldA=" +
+                        this.fieldA)}
+                        }
 		}
 	);
 
 	var B = Object.create(A, {
-		fieldB : {value : 'B'},
-		functionB : {value: function(s) {
-			console.log(s + "functionB : fieldB=" + this.fieldB);
+		fieldB : { value : 'B' },
+		functionB : {
+            value: function(s) {
+                console.log(s +
+                    "functionB : fieldB=" +
+                    this.fieldB);
 			}
 		}
 	});
 	
 
 	var C = Object.create(B, {
-		fieldC : {value : 'C'},
-		functionC : {value : function(s) {
-				console.log(s + "functionC : fieldC=" + this.fieldC);
+		fieldC : { value : 'C' },
+		functionC : {
+            value : function(s) {
+				console.log(s +
+                "functionC : fieldC=" +
+                this.fieldC);
 			}
 		}
 	});
@@ -92,20 +109,33 @@ console.info("functional inheritance");
 (function() {
 
 	var A = function (id) {
+    
 			return {
 				fieldA : 'A',
-				functionA : function(s) {console.log(s + "functionA : (fieldA,id)=" + this.fieldA + "," + id)}
+				functionA : 
+                    function(s) {
+                        console.log(s +
+                            "functionA : (fieldA,id)=" +
+                            this.fieldA + "," + id)
+                    }
 			}
 	};
 
 	var B = function (id) {
 		var that = A(id);
+        
 		that.fieldB = 'B';
+        
 		that.functionB = function(s) {
-			console.log(s + "functionB : (fieldB,id)=" + that.fieldB + "," + id);
+			console.log(s +
+                "functionB : (fieldB,id)=" +
+                that.fieldB + "," + id);
 		}
+        
 		that.openRecursionForC = function() {
-			console.log("B openRecursion fieldC = " + that.fieldC);
+			console.log(
+                "B openRecursion fieldC = " +
+                that.fieldC);
 			that.functionC("B openRecursion :");
 		}
 			
@@ -115,10 +145,15 @@ console.info("functional inheritance");
 
 	var C = function (id) {
 		var that = B(id);
+        
 		that.fieldC = 'C';
+        
 		that.functionC = function(s) {
-				console.log(s + "functionC : (fieldC,id)=" + that.fieldC + "," + id);
+				console.log(s +
+                    "functionC : (fieldC,id)=" +
+                    that.fieldC + "," + id);
 		}
+        
 		return that
 	};
 
