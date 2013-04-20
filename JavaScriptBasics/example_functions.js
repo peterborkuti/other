@@ -63,7 +63,7 @@ console.info ("function arguments III");
 (function() {
 
 function say() {
-    return arguments.slice(0,2);
+    //return arguments.slice(0,2);
 }
 
 console.log(say([0,1,2,3,4]));
@@ -77,7 +77,9 @@ TypeError: arguments.slice is not a function
 (function() {
 
 function say() {
-    var a = Array.prototype.slice.apply(arguments,[0]);
+    var a = 
+		Array.prototype.slice.apply(
+			arguments,[0]);
     return a.slice(0,2);
 }
 
@@ -87,6 +89,33 @@ console.log(say(0,1,2,3,4));
 
 /*
 [ 0, 1]
+*/
+
+console.info("function : obj as param");
+
+(function() {
+
+function say(o) {
+	o = o || {};
+	o.a = o.a || 1;
+	o.b = o.b || 2;
+	console.log(o);
+}
+
+say();
+say(null);
+say(100);
+say({a:10});
+say({a:10, b:20, c:30 });
+
+}());
+
+/*
+Object { a= 1 , b= 2 }
+Object { a= 1 , b= 2 }
+100
+Object { a= 10 , b= 2 }
+Object { a= 10 , b= 20 , c= 30 }
 */
 
 console.info("globals");
