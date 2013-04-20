@@ -256,7 +256,7 @@ console.info("function expression - hoisting III");
 
 (function() {
 
-console.log(say2("Hello - before"));
+//console.log(say2("Hello - before"));
 
 var say2 = function (s) {
 	return "I say2 "+s;
@@ -317,7 +317,8 @@ console.log("f5_23::"+f5_23.toString());
 
 (function () {
     /* 
-    Our code, which runs immediately, does brilliant things
+    Our code, which runs immediately,
+	does brilliant things
     but does not touch globals
     */
 	var V = "DISAPPEAR";
