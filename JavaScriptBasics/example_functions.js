@@ -568,7 +568,7 @@ function forever() {
 	setTimeout(forever, 2000);
 }
 
-forever();
+//forever();
 console.log("Calling done");
 }());
 
@@ -594,6 +594,30 @@ var c05_2 = c05("2",565,600,500);
 var c05_3 = c05("3",1000,1100,1000);
 */
 
+}());
+
+(function() {
+
+var c06 = function(name,start,end,millis) {
+	function count() {
+		console.log("counter:"+name+" = " +
+			start++)
+		if (start<end) { 
+			setTimeout(count, millis);
+		}
+	}
+	setTimeout(count, millis);
+
+	function stop() {
+		end = start;
+	}
+
+	return stop;
+}
+
+//var stopc06 = c06("counter2",100,200,500);
+
+//stopc06()
 }());
 
 console.info("Object and functions I");
@@ -632,37 +656,36 @@ console.info("constructor");
 (function() {
     var GLOBAL = this;
 
-    function MyConstructor(a,b) {
+    function MyConstructor(a) {
         this.a = a;
-        this.b = b;
-        //return this;
+		//return this
     }
 
-    var m1 = new MyConstructor(1,2);
-    console.group("var m1 = new MyConstructor(1,2)");
-    console.dir(m1);
+    var m1 = new MyConstructor(1);
+    console.group("var m1 = new MyConstructor(1)");
+    console.log(m1);
     console.groupEnd();
     console.group("GLOBAL");
     console.dir(GLOBAL);
     console.groupEnd();
     alert("new MyConstructor");
 
-    console.group("var m2 = MyConstructor(1,2)");
-    var m2 = MyConstructor(1,2);
+    console.group("var m2 = MyConstructor(1)");
+    var m2 = MyConstructor(1);
     console.groupEnd();
-    console.dir(m2);
+    console.log(m2);
     console.group("GLOBAL");
     console.dir(GLOBAL);
     console.groupEnd();
     alert("var m2 = MyConstructor");
 
-    console.group("MyConstructor(3,4)");
-    MyConstructor(3,4);
+    console.group("MyConstructor(2)");
+    MyConstructor(2);
     console.groupEnd();
     console.group("GLOBAL");
     console.dir(GLOBAL);
     console.groupEnd();
-    alert("MyConstructor(3,4)");
+    alert("MyConstructor(2)");
 
 }());
 
@@ -847,7 +870,7 @@ r.onreadystatechange = say;
 
 r.open("GET","http://localhost:1337/", false);
 
-r.send();
+//r.send();
 
 console.log("Request sent");
 
@@ -944,7 +967,7 @@ r.onreadystatechange = say;
 
 r.open("GET","http://localhost:1337/", true);
 
-r.send();
+//r.send();
 
 console.log("Request sent");
 
