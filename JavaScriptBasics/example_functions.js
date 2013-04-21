@@ -715,6 +715,7 @@ console.log("constructor invocation");
 new h1;
 
 console.log("indirect invocation");
+h1.apply(undefined,[]);
 h1.apply(null,[]);
 h1.apply(this,[]);
 var o2 = { x : 2 };
