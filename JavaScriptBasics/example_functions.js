@@ -342,7 +342,7 @@ f5_23::0.46325502661698104
 Invoked
 */
 
-console.info("return");
+console.info("return - obsolete");
 
 (function() {
 
@@ -436,6 +436,33 @@ f5=0.7931443870571057
 */
 }());
 
+console.log("return");
+
+var F = [];
+
+F[0] = function () {};
+F[1] = function () { return };
+F[2] = function () { return 1 };
+F[3] = function () { return { x:1 } };
+F[4] = function () { return (
+		function () { 
+			return Math.random
+		})
+}
+
+var t = [['F[i]()'],['new F[i]']];
+for (var i in F) {
+	t[0].push(F[i]());
+	t[1].push(new F[i]);
+}
+
+console.table(t);
+
+/*
+undefined	undefined	1			Object { x=1}	function()
+Object {}	Object {}	Object {}	Object { x=1}	function()
+*/
+
 console.info("Nested function");
 (function() {
 
@@ -519,14 +546,44 @@ console.log("c04_1" + c04_1());
 
 }());
 
+console.info("Closures IIIa - warming up");
+
+(function() {
+
+function say() {
+	console.log("Hello");
+}
+
+setTimeout(say,5000);
+console.log("timeout set");
+
+}());
+
+console.info("Closures IIIb - warming up");
+
+(function() {
+
+function forever() {
+	console.log("Hello");
+	setTimeout(forever, 2000);
+}
+
+forever();
+console.log("Calling done");
+}());
+
+
 console.info("Closures III");
 
 (function() {
 
 var c05 = function(name,start,end,millis) {
 	function count() {
-		console.log("counter:"+name+" = " + start++)
-		if (start<end) setTimeout(count, millis);
+		console.log("counter:"+name+" = " +
+			start++)
+		if (start<end) { 
+			setTimeout(count, millis);
+		}
 	}
 	setTimeout(count, millis);
 }
