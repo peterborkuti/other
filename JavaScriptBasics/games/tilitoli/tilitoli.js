@@ -3,7 +3,10 @@ function initGame() {
 
     var divs,
         emptyPos = 0,
-        N = 4;
+        N = 4,
+		table,
+		TILEWIDTH = 200,
+		TILEHEIGHT = 173;
 	
 	
      function getSwapTileWithEmpty(num) {
@@ -58,11 +61,10 @@ function initGame() {
 		return Math.floor(Math.random()*(b-a+1)+a);
 	}
 	function shuffle() {
-		var i, n, r, table, run = true;
+		var i, n, r, run = true;
 
-		table = document.getElementsByTagName('table');
-		table[0].onclick = function () { stop() };
-		
+		table.onclick = function () { stop() };
+
 		function moveOne() {
 			var n = getEmptyTileNeighbours();
 			r = getRand(0,n.length-1);
@@ -71,7 +73,7 @@ function initGame() {
 			if (run) {
 				setTimeout(moveOne, 500);
 			} else {
-				table[0].onclick = "";
+				table.onclick = "";
 				setOnClicks();
 			}
 		}
@@ -85,16 +87,21 @@ function initGame() {
 	}
 
  	function init() {
-		var i, s, table;
+		var i, s, pos;
 		for (i = 0; i < divs.length; i += 1) {
 			s = "0".concat(i).slice(-2);
 			divs[i].style.backgroundImage = "url(bee-" + s + ".png)";
+			/*
+			pos = toPos(i);
+			divs[i].style.top  = pos.y * TILEHEIGHT;
+			divs[i].style.left = pos.x * TILEWIDTH;
+			*/
 		}
-		table = document.getElementsByTagName('table');
-		table[0].onclick = function () { shuffle() };
+		table.onclick = function () { shuffle() };
 	}
     
-	divs = document.getElementsByTagName('div');
+	table = document.getElementById('board');
+	divs = table.getElementsByTagName('div');
 	divs = Array.prototype.slice.apply(divs,[0]);
     init();
 
