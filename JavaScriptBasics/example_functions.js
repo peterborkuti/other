@@ -726,11 +726,19 @@ h1.apply(a2,[]);
 }());
 
 console.info("closure and this");
+/*
+    because of the "function invocation", 
+    h2_1 "forget" the closured "this".
+    So we have to remember the original "this",
+    This is because I use "that".
+*/
+    
+
+console.error("I forget what this examples are for!");
+
 (function() {
 
-var o3 = {
-	y : 1
-}
+var o3 = { y : 1 };
 
 var h2 = function () {
 	function h2_1() {
@@ -857,8 +865,6 @@ console.info("synchronous callback - AJAX");
 
 (function() {
 
-var r = new XMLHttpRequest();
-
 function say() {
     if ( this.readyState == 4 &&
          this.status == 200 ) {
@@ -867,9 +873,11 @@ function say() {
     }
 }
 
+var r = new XMLHttpRequest();
+
 r.onreadystatechange = say;
 
-r.open("GET","http://localhost:1337/", false);
+r.open("GET","http://127.0.0.1:1337/", false);
 
 //r.send();
 
@@ -933,11 +941,13 @@ function say() {
 }
 
 function timer(f, millis, n) {
-	function callCallback(n) {
-		if (n>0) {
+	function callCallback(m) {
+		if (m>0) {
             f();
 			setTimeout(
-                function () { callCallback(n-1) }, millis)
+                function () {
+                callCallback(m-1)
+                }, millis)
 		}		
 	}
 
@@ -954,8 +964,6 @@ console.info("asynchronous callback - AJAX");
 
 (function() {
 
-var r = new XMLHttpRequest();
-
 function say() {
     if ( this.readyState == 4 &&
          this.status == 200 ) {
@@ -964,11 +972,13 @@ function say() {
     }
 }
 
+var r = new XMLHttpRequest();
+
 r.onreadystatechange = say;
 
-r.open("GET","http://localhost:1337/", true);
+r.open("GET","http://127.0.0.1:1337/", true);
 
-//r.send();
+r.send();
 
 console.log("Request sent");
 
@@ -987,46 +997,48 @@ console.info("method chaining (cascade)");
 
     function printField01(obj, fieldName) {
         console.log(fieldName +
-            "'s value is '" +
-            obj[fieldName] + "'");
+            " value is " +
+            obj[fieldName]);
     }
 
     printField01(o,'a');
     printField01(o,'b');
 
     /*
-    a's value is '1'
-    b's value is '2'
+    a value is 1
+    b value is 2
     */
     
     var o = { a : 1, b : 2 };
 
     function printField02(obj, fieldName) {
         console.log(fieldName +
-            "'s value is '" +
-            obj[fieldName] + "'");
+            " value is " +
+            obj[fieldName]);
         return obj
     }
 
     printField02(printField02(o,'a'),'b');
     
     /*
-    a's value is '1'
-    b's value is '2'
+    a value is 1
+    b value is 2
     */ 
+    var o = { a : 1, b : 2 };
     
-    Object.prototype.printField = function(fieldName) {
-        console.log(fieldName +
-            "'s value is '" +
-            this[fieldName] + "'");
-        return this
-    }
+    o.printField =
+        function(fieldName) {
+            console.log(fieldName +
+                " value is " +
+                this[fieldName]);
+            return this
+        }
 
     o.printField('a').printField('b');
     
     /*
-    a's value is '1'
-    b's value is '2'
+    a value is 1
+    b value is 2
     */ 
 
 }());
