@@ -325,6 +325,16 @@ console.log("f5_23::"+f5_23.toString());
 	console.log("Invoked");
 }());
 
+console.info("function expression with parameter");
+
+(function (p) {
+	console.log(p*p)
+})(10);
+
+(function (p) {
+	console.log(p*p)
+}(5));
+
 /*
 function () {
 	console.log("Imm. inv. - bad");
