@@ -8,21 +8,24 @@ liferay.com.bp = {};
 
 console.log("II. create an empty module");
 
-liferay.com.bp.ModuleExample = function() {
+liferay.com.bp.ModuleExample =
+ function() {
 
 
 }();
 
 console.log("III. create private vars");
 
-liferay.com.bp.ModuleExample = function() {
+liferay.com.bp.ModuleExample =
+ function() {
 	var p = "private var";
 
 }();
 
 console.log("IV. create private funcs");
 
-liferay.com.bp.ModuleExample = function() {
+liferay.com.bp.ModuleExample =
+ function() {
 	var privvar = "";
 	
 	var privfunc = function () {
@@ -33,7 +36,8 @@ liferay.com.bp.ModuleExample = function() {
 
 console.log("V. create public vars");
 
-liferay.com.bp.ModuleExample = function() {
+liferay.com.bp.ModuleExample =
+ function() {
 	var privvar = "privvalue";
 	
 	var privfunc = function () {
@@ -48,7 +52,8 @@ liferay.com.bp.ModuleExample = function() {
 
 console.log("VI. create public funcs");
 
-liferay.com.bp.ModuleExample = function() {
+liferay.com.bp.ModuleExample =
+ function() {
 	var privvar = "privvalue";
 	
 	var privfunc = function () {
