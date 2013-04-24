@@ -569,6 +569,23 @@ console.log("timeout set");
 
 }());
 
+console.info("Closures IIIaa - warming up");
+
+(function() {
+
+function say() {
+	console.log("Hello");
+}
+
+var handler = setInterval(say,500);
+
+setTimeout( function () {
+	clearTimeout(handler) }, 3000);
+
+console.log("timeout set");
+
+}());
+
 console.info("Closures IIIb - warming up");
 
 (function() {
@@ -697,7 +714,32 @@ console.info("constructor");
     console.groupEnd();
     alert("MyConstructor(2)");
 
-}());
+}()); 
+
+console.info("constructor and public/private");
+
+(function () {
+	function A(p) {
+		var privv = 1;
+		var privf = function () {};
+
+		this.pubv = 2;
+
+		this.privilegedf = function () {
+			privf(); console.log(privv);
+			console.log(this.pubv);
+		}
+	}
+
+	A.prototype.publicf = function () {
+		console.log(this.pubv);
+	}
+
+	var a = new A(5);
+	a.privilegedf();
+	a.publicf();
+
+})();
 
 
 console.info("invocations of functions");
@@ -1095,3 +1137,23 @@ console.info("Augmenting built-in Array");
  2
  sayHello
 */
+
+console.info("getters/setters);
+
+(function () {
+	var o = Object.create(null, 
+		{ a : {
+			configurable : false,
+			writable : true,
+			enumerable : false,
+			get : }
+
+
+
+
+
+
+
+})();
+
+
