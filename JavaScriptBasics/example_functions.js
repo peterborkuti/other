@@ -1052,3 +1052,46 @@ console.info("method chaining (cascade)");
     */ 
 
 }());
+
+console.info("Augmenting built-in objects");
+// DANGEROUS!
+
+(function() {
+
+    Number.prototype.sayHello =
+        function () {
+            console.log("Hello - " + this)
+        }
+        
+    var n = 1;
+    
+    n.sayHello();
+
+})();
+
+console.info("Augmenting built-in Array");
+
+(function() {
+
+    Array.prototype.sayHello =
+        function () {
+            console.log("Hello - " + this)
+        }
+        
+    var a = [0,1,2];
+    
+    console.log(a.length);
+    
+    for (var i in a) {
+        console.log(i);
+    }
+    
+})();
+
+/*
+ 3
+ 0
+ 1
+ 2
+ sayHello
+*/

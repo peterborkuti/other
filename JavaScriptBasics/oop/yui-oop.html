@@ -4,13 +4,13 @@
 <script type="text/javascript" src="yui/oop/oop.js"></script>
 <script>
 
-function A(name) {
-	this.name = name;
+function A(a) {
+	this.a = a;
 };
 
-function B(age,name) {
-	B.superclass.constructor(name);
-	this.age = age
+function B(a,b) {
+	B.superclass.constructor(a);
+	this.b = b
 };
 
 /*
@@ -24,16 +24,36 @@ var Y = YUI().use('oop');
 Y.extend(A,Object);
 Y.extend(B,A);
 	
-var a = new A("a");
-var b = new B("b","ba");
+var a = new A(1);
+var b = new B(2,3);
+var table = [];
+table.push({obj:b});
+//invalid 'instanceof' operand B2 
+table[0].isInstanceOf_B = (table[0].obj instanceof(B));
+table[0].isInstanceOf_A = (table[0].obj instanceof(A));
+table[0].AisPrototypeOf = (A.isPrototypeOf(b));
+//there is no "prototype" property
+//but b2.__proto__.__proto__.hasOwnProperty('a') works in Firefox
+table[0].isOwnerOf_a = (table[0].hasOwnProperty('a'));
+table[0].isOwnerOf_b = (table[0].hasOwnProperty('b'));
 
+for (var i = 0; i < table.length; i++) {
+    //table[i].value = (table[i].obj.valueOf());
+    table[i].isOwnerOf_a = (table[i].obj.hasOwnProperty('a'));
+    table[i].isOwnerOf_b = (table[i].obj.hasOwnProperty('b'));
+    table[i].typeof_ = typeof(table[i].obj);
+}
 
+console.table(table);
 
+/*
 var bb = new B("bb","bba");
 
 console.log(a);
 console.log(b);
 console.log(bb);
+*/
+
 </script>
 </head>
 <body>
