@@ -7,7 +7,7 @@ http.createServer(function (req, res) {
 
     res.writeHead(200, {
         'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin': 'null'});
+        'Access-Control-Allow-Origin': '*'});
         
     res.end('hello world\n');
     

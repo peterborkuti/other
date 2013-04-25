@@ -1138,22 +1138,18 @@ console.info("Augmenting built-in Array");
  sayHello
 */
 
-console.info("getters/setters);
-
+console.info("getters/setters");
+/*
 (function () {
 	var o = Object.create(null, 
 		{ a : {
 			configurable : false,
 			writable : true,
 			enumerable : false,
-			get : }
-
-
-
-
-
-
+			get : function () { return 1; },
+            set : function (p) { console.log("setter:"+p) }
+        }
 
 })();
-
+*/
 
