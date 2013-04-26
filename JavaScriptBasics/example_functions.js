@@ -22,7 +22,7 @@ console.info ("function arguments I");
 (function() {
 
 function say() {
-    for (var i in  arguments) {
+    for (var i = 0; i < arguments.length; i += 1) {
         console.log(
             "arguments[" + i +
             "]:" + arguments[i]);
@@ -180,19 +180,13 @@ console.info("variables - function scope");
 
 (function() {
 
-function f3_1(){
-	console.log(i);
-}
-
 function f3_2(){
 	console.log(i);
 	for (var i=0; i<3; i++){
 		console.log(i);
 	}
 	console.log(i);
-	//f3_1();
 }
-//f3_1();
 f3_2();
 
 }());
@@ -526,10 +520,12 @@ c0_32();
 console.log(c0_32.toString());
 
 var c0_4 = function (s) {
+
 	return function() {
 		console.log(
 			"I am in c0_4 return " + s);
 	};
+    
 }
 var c0_41 = c0_4("Hello");
 c0_41();
