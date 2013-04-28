@@ -119,12 +119,14 @@ function initGame(picURL) {
 		TILEHEIGHT = Math.floor(img.height / N);
 		table.style.height = (TILEHEIGHT * 4) + "px";
 		table.style.width = (TILEWIDTH * 4) + "px";
+		table.style.backgroundSize = (TILEWIDTH * 4) + "px " + (TILEHEIGHT * 4) + "px";
 	}
 
 	table = document.getElementById('board');
 	divs = table.getElementsByTagName('div');
 	divs = Array.prototype.slice.apply(divs,[0]);
 	setupSizes();
+	
 	init();
 
 }
