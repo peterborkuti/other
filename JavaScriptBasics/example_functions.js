@@ -531,6 +531,22 @@ var c0_41 = c0_4("Hello");
 c0_41();
 console.log(c0_41.toString());
 
+var c0_5 = function (s) {
+
+	return function() {
+		console.log(s);
+		s = s.slice(1) + s[0];
+	};
+    
+}
+var c0_51 = c0_5("Hello");
+c0_51();
+c0_51();
+c0_51();
+c0_51();
+c0_51();
+c0_51();
+
 }());
 
 console.info("Closures II");
