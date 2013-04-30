@@ -1,27 +1,73 @@
 <!DOCTYPE html>
 <head>
 <meta charset="UTF-8"/>
-<title>permutation by Peter Borkuti</title>
+<title>Sudoku by Peter Borkuti</title>
 <style>
 
-#board div { border-style:none; float:left; background-repeat: no-repeat;}
-#board { border: 1px solid black; float: none; background-image: url('wall.jpg');}
+#board td div { border-style:solid; border-width: 1px; float:left; width: 30px; height: 30px; line-height: 30px; color: black; background-color: white; text-align: center;}
+#board td { width: 100px; border-style: none;}
+#board { border-style: none; float: none; background-image: url('wall.jpg'); }
+
 
 </style>
 <script src="sudoku.js">
 </script>
 </head>
 <html>
-	<body onload="initGame()">
+	<body onload="SUDOKU()">
 
-		<div id="board">
-
-			<div></div> <div></div> <div></div> <div></div>
-			<div></div> <div></div> <div></div> <div></div>
-			<div></div> <div></div> <div></div> <div></div>
-			<div></div> <div></div> <div></div> <div></div>
-
-		</div>
-
+		<table id="board" border = 1>
+            <tr>
+                <td>
+                    <div>1</div> <div>2</div> <div>3</div>
+                    <div>5</div> <div>6</div> <div>7</div>
+                    <div>8</div> <div>9</div> <div>10</div>
+                </td>
+                <td>
+                    <div>1</div> <div>2</div> <div>3</div>
+                    <div>5</div> <div>6</div> <div>7</div>
+                    <div>8</div> <div>9</div> <div>10</div>
+                </td>
+                <td>
+                    <div>1</div> <div>2</div> <div>3</div>
+                    <div>5</div> <div>6</div> <div>7</div>
+                    <div>8</div> <div>9</div> <div>10</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div>1</div> <div>2</div> <div>3</div>
+                    <div>5</div> <div>6</div> <div>7</div>
+                    <div>8</div> <div>9</div> <div>10</div>
+                </td>
+                <td>
+                    <div>1</div> <div>2</div> <div>3</div>
+                    <div>5</div> <div>6</div> <div>7</div>
+                    <div>8</div> <div>9</div> <div>10</div>
+                </td>
+                <td>
+                    <div>1</div> <div>2</div> <div>3</div>
+                    <div>5</div> <div>6</div> <div>7</div>
+                    <div>8</div> <div>9</div> <div>10</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div>1</div> <div>2</div> <div>3</div>
+                    <div>5</div> <div>6</div> <div>7</div>
+                    <div>8</div> <div>9</div> <div>10</div>
+                </td>
+                <td>
+                    <div>1</div> <div>2</div> <div>3</div>
+                    <div>5</div> <div>6</div> <div>7</div>
+                    <div>8</div> <div>9</div> <div>10</div>
+                </td>
+                <td>
+                    <div>1</div> <div>2</div> <div>3</div>
+                    <div>5</div> <div>6</div> <div>7</div>
+                    <div>8</div> <div>9</div> <div>10</div>
+                </td>
+            </tr>
+        </table>
 	</body>
 </html>

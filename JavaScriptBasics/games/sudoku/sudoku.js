@@ -1,5 +1,18 @@
 /* exported initGame */ 
 
+function SUDOKU () {
+    var BOARDSIZE = 3,
+        divs = [];
+
+function factor(n) {
+    if (n>1) {
+        return n * factor(n-1);
+    } else {
+        return 1;
+    }
+}
+
+
 function Permutator() {
 	"use strict";
 
@@ -55,34 +68,52 @@ function Permutator() {
 	}
 
 }
-function initGame() {
+
+function initGame(N) {
 	"use strict";
+    var perm = new Permutator(),
+    	end = factor(N);
 
+    function pushPermutationToCell(arr,divsnum) {
+        var i;
+        for (i = 0; i < arr.length; i += 1) {
+            divs[divsnum][i].innerHTML = arr[i];
+        }
+    }
+    
+    function permutateOne(N, arr, step, cellNum) {
+        arr = perm.nextPerm(arr, N);
+        pushPermutationToCell(arr, cellNum);
+        cellNum += 1;
+        cellNum %= N;
+        //console.log(arr.length + " : " + arr);
+        step += 1;
+        if (step < end) {
+            setTimeout(function () { permutateOne(N, arr, step, cellNum); }, 100);
+        }
+    }
 
-	function factor(n) {
-		if (n>1) {
-			return n * factor(n-1);
-		} else {
-			return 1;
-		}
+	function permutation() {
+        permutateOne(N, [], 0, 0);
 	}
+   
+    function init() {
+        var r,c,celldivs,cell, table;
+        table = document.getElementById('board');
+        for (r = 0; r < BOARDSIZE; r += 1) {
+            for (c = 0; c < BOARDSIZE; c += 1) {
+                cell = table.rows[r].cells[c];
+                celldivs = cell.getElementsByTagName('div');
+                divs.push(Array.prototype.slice.apply(celldivs,[0]));
+            }
+        }
+    }
+    
+    init();
+	permutation();
 
-	function permutation(N) {
-		var i,
-			perm = new Permutator(),
-			a,
-			end = factor(N);
+}
 
-		for ( i = 0; i < end; i += 1) {
-			a = perm.nextPerm(a,N);
-			if (a.length < N) console.log("Error");
-			console.log(a.length + " : " + a);
-		}
-	}
-
-	//table = document.getElementById('board');
-	//divs = table.getElementsByTagName('div');
-	//divs = Array.prototype.slice.apply(divs,[0]);
-	permutation(5);
+initGame(9);
 
 }
