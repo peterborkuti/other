@@ -29,7 +29,7 @@ function initGame(N) {
 		var r, c, divNum;
 		r = Math.floor(row / BOARDSIZE);
 		c = Math.floor(col / BOARDSIZE);
-		divNum = (row % 3) * 3 + col % 3;
+		divNum = (row % BOARDSIZE) * BOARDSIZE + col % BOARDSIZE;
 		return { r:r, c:c, divNum:divNum };
 	}
 
@@ -62,11 +62,7 @@ function initGame(N) {
     
     function fillOne(N, row, col) {
 		var r,c,divNum, num, div, pos;
-		/*
-		divsNum = Math.floor(row / BOARDSIZE) * BOARDSIZE + Math.floor(col / BOARDSIZE);
-		divNum = (row % 3) * 3 + col % 3;
-		div = divs[divsNum][divNum];
-		*/
+
 		pos = getPos(row, col);
 		r = pos.r;
 		c = pos.c;
@@ -92,7 +88,7 @@ function initGame(N) {
 				col -= 1;
 			} else {
 				row -= 1;
-				col = BOARDSIZE * BOARDSIZE - 1;
+				col = MAXNUM - 1;
 			}
 		} else {
 			if ( col < MAXNUM - 1 ) {
@@ -113,11 +109,13 @@ function initGame(N) {
 
 	function fill() {
 		var i, arr = new Array(MAXNUM);
-
+        //shuffle begin
 		for (i = 0; i < MAXNUM; i += 1) {
 			arr[i]=Math.floor((Math.random() * 1000)) * 10 + (i + 1);
 		}
 		arr.sort(function(a,b){return a-b});
+        //shuffle end
+        
 		sudoku[0][0]=arr.map(function (e) { return e % 10; });
 		pushArrToCell(sudoku[0][0],0,0);
         fillOne(N, 0, 3);
@@ -131,7 +129,7 @@ function initGame(N) {
 			sudoku[r] = [];
 			divs[r] = [];
             for (c = 0; c < BOARDSIZE; c += 1) {
-				sudoku[r][c] = new Array(BOARDSIZE * BOARDSIZE);
+				sudoku[r][c] = new Array(MAXNUM);
                 cell = table.rows[r].cells[c];
                 celldivs = cell.getElementsByTagName('div');
                 divs[r][c] = Array.prototype.slice.apply(celldivs,[0]);
