@@ -32,14 +32,26 @@ function initGame(N) {
 		divNum = (row % BOARDSIZE) * BOARDSIZE + col % BOARDSIZE;
 		return { r:r, c:c, divNum:divNum };
 	}
+	
+	function getRowCol(r,c,i) {
+		var row,col;
+		row = r * BOARDSIZE;
+		col = c * BOARDSIZE;
+		row += Math.floor(i / BOARDSIZE);
+		col += Math.floor(i % BOARDSIZE);
+		return { row: row, col: col};
+	}
 
 	// TODO
 	function goodNumber(n, row, col, r_, c_, divNum) {
 		var arr = sudoku[r_][c_],
-			i = arr.indexOf(n),
+			i,
 			p,r,c,nn;
 		//check in cell
-		if (i !== divNum ) return false;
+		arr[divNum] = undefined;
+		i = arr.indexOf(n);
+		arr[divNum] = n;
+		if (i !== -1 ) return false;
 		//check column
 		for (r = 0; r < MAXNUM - 1; r++) {
 			if (r !== row) {
@@ -58,6 +70,45 @@ function initGame(N) {
 		}
 
 		return true;
+	}
+
+	function getNumSetter(div,r,c,i) {
+		return function () {
+			var n = parseInt(div.innerHTML,10), pos;
+			if (isNaN(n) || (n < 1) || (n > MAXNUM)) {
+				n = 0;
+			}
+			if (n < MAXNUM) {
+				n += 1;
+			} else {
+				n = 1;
+			}
+			div.innerHTML = n;
+			sudoku[r][c][i] = n;
+			pos = getRowCol(r,c,i);
+			if (goodNumber(n, pos.row, pos.col, r, c, i)) {
+				div.style.backgroundColor = "green";
+			} else {
+				div.style.backgroundColor = "red";
+			}
+		}
+	}
+
+	function startGame() {
+		var i,r,c,div;
+		for (r = 0; r < BOARDSIZE; r += 1) {
+			for (c = 0; c < BOARDSIZE; c += 1) {
+				for (i = 0; i < MAXNUM; i += 1) {
+					if (Math.random() < 0.5) {
+						div = divs[r][c][i];
+						div.innerHTML = '';
+						div.style.backgroundColor = "red";
+						div.onclick = getNumSetter(div,r,c,i);
+						sudoku[r][c][i] = 0;
+					}
+				}
+			}
+		}
 	}
     
     function fillOne(N, row, col) {
@@ -104,6 +155,8 @@ function initGame(N) {
 
 		if (row >= 0 && row < MAXNUM) {
 			setTimeout(function () { fillOne(N, row, col); }, 0);
+		} else {
+			startGame();
 		}
     }
 
@@ -139,6 +192,7 @@ function initGame(N) {
     
     init();
 	fill();
+	
 
 }
 
