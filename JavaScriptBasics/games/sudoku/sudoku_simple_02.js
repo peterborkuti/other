@@ -4,8 +4,11 @@ function SUDOKU () {
     var BOARDSIZE = 3,
 		MAXNUM = BOARDSIZE * BOARDSIZE,
 		MINNUM = 1,
+        DELETE_PROBABILITY = 0.7,
+        FILL_WAITING = 0, // millisecs between fill-steps. 0 - fastest filling
         divs = [],
 		sudoku = [];
+        dontModify = [];
 
 function initGame(N) {
 	"use strict";
@@ -53,7 +56,7 @@ function initGame(N) {
 		arr[divNum] = n;
 		if (i !== -1 ) return false;
 		//check column
-		for (r = 0; r < MAXNUM - 1; r++) {
+		for (r = 0; r < MAXNUM ; r++) {
 			if (r !== row) {
 				p = getPos(r, col);
 				nn = sudoku[p.r][p.c][p.divNum];
@@ -61,7 +64,7 @@ function initGame(N) {
 			}
 		}
 		//check row
-		for (c = 0; c < MAXNUM - 1; c++) {
+		for (c = 0; c < MAXNUM ; c++) {
 			if (c !== col) {
 				p = getPos(row, c);
 				nn = sudoku[p.r][p.c][p.divNum];
@@ -99,7 +102,7 @@ function initGame(N) {
 		for (r = 0; r < BOARDSIZE; r += 1) {
 			for (c = 0; c < BOARDSIZE; c += 1) {
 				for (i = 0; i < MAXNUM; i += 1) {
-					if (Math.random() < 0.5) {
+					if (Math.random() < DELETE_PROBABILITY) {
 						div = divs[r][c][i];
 						div.innerHTML = '';
 						div.style.backgroundColor = "red";
@@ -111,67 +114,97 @@ function initGame(N) {
 		}
 	}
     
-    function fillOne(N, row, col) {
-		var r,c,divNum, num, div, pos;
-
-		pos = getPos(row, col);
-		r = pos.r;
-		c = pos.c;
-		divNum = pos.divNum;
-		
-		num = sudoku[r][c][divNum];
-		div = divs[r][c][divNum];
-		if (num) {
-			num += 1;
-		} else {
-			num = MINNUM;
-		}
-		sudoku[r][c][divNum] = num;
-		div.innerHTML = num;
-		while ( num <= MAXNUM && !goodNumber(num, row, col, r, c, divNum)) {
-			num += 1;
-			div.innerHTML = num;
-			sudoku[r][c][divNum] = num;
-		}
-		if (num > MAXNUM) {
-			num = 0;
+    function getNewCoord(coord, back) {
+        var col = coord.col, row = coord.row;
+        if (back) {
 			if ( col > 0 ) {
 				col -= 1;
 			} else {
 				row -= 1;
 				col = MAXNUM - 1;
-			}
-		} else {
+			}        
+        } else {
 			if ( col < MAXNUM - 1 ) {
 				col += 1;
 			} else {
 				col = 0;
 				row += 1;
 			}
+        }
+        return { row:row, col:col};
+    }
+
+    function setNextStep(coord, backStep) {
+		if (coord.row >= 0 && coord.row < MAXNUM) {
+			setTimeout(function () { fillOne(N, coord, backStep); }, FILL_WAITING);
+		} else {
+            if (coord.row >= MAXNUM) {
+                startGame();
+            } else {
+                alert("Unfortunately I could not fill the table. Refresh the browser");
+            }
 		}
+    }
+
+    
+    function fillOne(N, coord, backStep) {
+		var r,c,divNum, num, div, pos;
+
+		pos = getPos(coord.row, coord.col);
+		r = pos.r;
+		c = pos.c;
+		divNum = pos.divNum;
+        
+        if (dontModify[r][c][divNum] && backStep) {
+            coord = getNewCoord(coord, backStep);
+            setNextStep(coord, backstep);
+            return;
+        }
+		
+		num = sudoku[r][c][divNum];
+		div = divs[r][c][divNum];
+		if (num && num > 0 && num <= MAXNUM ) {
+			if (!dontModify[r][c][divNum] && num < MAXNUM) {
+                num += 1;
+            }
+		} else {
+			num = MINNUM;
+		}
+		sudoku[r][c][divNum] = num;
+		div.innerHTML = num;
+		while ( num <= MAXNUM && !goodNumber(num, coord.row, coord.col, r, c, divNum)) {
+			num += 1;
+			div.innerHTML = num;
+			sudoku[r][c][divNum] = num;
+		}
+        backStep = num > MAXNUM;
+        coord = getNewCoord(coord, backStep);
 
 		div.innerHTML = num;
 		sudoku[r][c][divNum] = num;
 
-		if (row >= 0 && row < MAXNUM) {
-			setTimeout(function () { fillOne(N, row, col); }, 0);
-		} else {
-			startGame();
-		}
+        setNextStep(coord, backStep);
     }
 
-	function fill() {
-		var i, arr = new Array(MAXNUM);
+    function getRandomPermutation() {
+    	var i, arr = new Array(MAXNUM);
         //shuffle begin
 		for (i = 0; i < MAXNUM; i += 1) {
 			arr[i]=Math.floor((Math.random() * 1000)) * 10 + (i + 1);
 		}
 		arr.sort(function(a,b){return a-b});
-        //shuffle end
-        
-		sudoku[0][0]=arr.map(function (e) { return e % 10; });
-		pushArrToCell(sudoku[0][0],0,0);
-        fillOne(N, 0, 3);
+        return arr.map(function (e) { return e % 10; });
+    }
+    
+	function fill() {
+        var i;
+        for (i = 0; i < BOARDSIZE; i += 1) {
+            sudoku[i][i]=getRandomPermutation();
+            pushArrToCell(sudoku[i][i],i,i);
+            //values are not important, only there must be true
+            dontModify[i][i] = getRandomPermutation();
+        }
+        fillOne(N, {row:0, col:3}, false);
 	}
    
     function init() {
@@ -181,8 +214,10 @@ function initGame(N) {
         for (r = 0; r < BOARDSIZE; r += 1) {
 			sudoku[r] = [];
 			divs[r] = [];
+            dontModify[r] = [];
             for (c = 0; c < BOARDSIZE; c += 1) {
 				sudoku[r][c] = new Array(MAXNUM);
+                dontModify[r][c] = new Array(MAXNUM);
                 cell = table.rows[r].cells[c];
                 celldivs = cell.getElementsByTagName('div');
                 divs[r][c] = Array.prototype.slice.apply(celldivs,[0]);
