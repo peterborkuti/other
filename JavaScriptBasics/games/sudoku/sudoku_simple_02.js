@@ -6,12 +6,170 @@ function SUDOKU () {
 		MINNUM = 1,
         DELETE_PROBABILITY = 0.7,
         FILL_WAITING = 0, // millisecs between fill-steps. 0 - fastest filling
-        divs = [],
-		sudoku = [];
-        dontModify = [];
+		CSSRULESET_BADNUMBER = "badNumber",
+		CSSRULESET_GOODNUMBER = "goodNumber";
 
-function initGame(N) {
+function Board() {
+	var board = new Array();
+	board.getElement = function (coord) {
+		return board[coord.r][coord.c][coord.divNum];
+	}
+	board.setElement = function (coord,e) {
+		board[coord.r][coord.c][coord.divNum] = e;
+		return board;
+	}
+	board.setElementHTML = function (coord,s) {
+		board[coord.r][coord.c][coord.divNum].innerHTML = s;
+		return board;
+	}
+
+	board.setElementHTMLClassName = function (coord,s) {
+		board[coord.r][coord.c][coord.divNum].className = s;
+		return board;
+	}
+
+	board.isNumberInRowOrCol = function(coord, inRow) {
+		var i = 0, coords = inRow ? coord.getCoordsInRow() : coord.getCoordsInCol()
+			num = board.getElement(coord);
+		while ( i < coords.length && board.getElement(coords[i]) !== num) {
+			i += 1;
+		}
+
+		return (i < coords.length);
+	}
+
+	board.isNumberInCell = function(coord) {
+		var arr = board[coord.r][coord.c],
+			num = board.getElement(coord),
+			i;
+
+		arr[coord.divNum] = undefined;
+		i = arr.indexOf(num);
+		arr[coord.divNum] = num;
+
+		return (i !== -1);
+	}
+
+	board.badNumber = function(coord) {
+		var a = board.isNumberInCell(coord),
+			b = board.isNumberInRowOrCol(coord,true),
+			c = board.isNumberInRowOrCol(coord,false);
+			return a || b || c;
+	}
+
+	return board;
+}
+
+function Coord (boardSize, maxNum) {
+	this.row = 0;
+	this.col = 0;
+
+	this.r = 0;
+	this.c = 0;
+	this.divNum = 0;
+	
+	this.BOARDSIZE = boardSize;
+	this.MAXNUM = maxNum;
+	
+	this.setRowCol = function(row,col) {
+		this.row = row;
+		this.col = col;
+		this.r = Math.floor(this.row / this.BOARDSIZE);
+		this.c = Math.floor(this.col / this.BOARDSIZE);
+		this.divNum = (this.row % this.BOARDSIZE) * this.BOARDSIZE + this.col % this.BOARDSIZE;
+		return this;
+	}
+
+	this.setRCDivNum = function (r,c,divNum) {
+		this.r = r;
+		this.c = c;
+		this.divNum = divNum;
+
+		this.row = r * this.BOARDSIZE;
+		this.col = c * this.BOARDSIZE;
+		this.row += Math.floor(divNum / this.BOARDSIZE);
+		this.col += Math.floor(divNum % this.BOARDSIZE);
+		return this;
+	}
+
+	this.newCoord = function (back) {
+        if (back) {
+			if ( this.col > 0 ) {
+				this.col -= 1;
+			} else {
+				this.row -= 1;
+				this.col = this.MAXNUM - 1;
+			}        
+        } else {
+			if ( this.col < this.MAXNUM - 1 ) {
+				this.col += 1;
+			} else {
+				this.col = 0;
+				this.row += 1;
+			}
+        }
+		this.setRowCol(this.row, this.col);
+        return this;
+    }
+
+	this.getCoord = function (row, col) {
+		var c = new Coord(this.BOARDSIZE, this.MAXNUM);
+		return c.setRowCol(row,col);
+	}
+	
+	this.getCoordsInRow = function () {
+		var i, row = [];
+		for (i = 0; i < this.MAXNUM; i += 1) {
+			if (this.col !== i) {
+				row.push(this.getCoord(this.row, i));
+			}
+		}
+		return row;
+	}
+
+	this.getCoordsInCol = function () {
+		var i, col = [];
+		for (i = 0; i < this.MAXNUM; i += 1) {
+			if (this.row !== i) {
+				col.push(this.getCoord(i, this.col));
+			}
+		}
+		return col;
+	}
+
+}
+
+function game() {
 	"use strict";
+
+	var divs = new Board,
+		sudoku = new Board,
+        dontModify = new Board,
+		coord = new Coord(BOARDSIZE, MAXNUM);
+	
+	function setNumWithStyle(coord,num) {
+		var div = divs.getElement(coord);
+		sudoku.setElement(coord,num);
+		divs.setElementHTML(coord,(num == 0)?'':num);
+		if (num === '' || num === 0) {
+			divs.setElementHTMLClassName(coord,CSSRULESET_BADNUMBER);
+		} else {
+			if (sudoku.badNumber(coord)) {
+				divs.setElementHTMLClassName(coord,CSSRULESET_BADNUMBER);
+			} else {
+				divs.setElementHTMLClassName(coord,CSSRULESET_GOODNUMBER);
+			}
+		}
+		return div;
+	}
+
+
+	function setNum(num) {
+		if (!dontModify.getElement(coord)) {
+			sudoku.setElement(coord,num);
+			divs.setElementHTML(coord,num);
+		}
+	}
 
     function pushArrToCell(arr,r,c) {
         var i;
@@ -19,65 +177,11 @@ function initGame(N) {
             divs[r][c][i].innerHTML = arr[i];
         }
     }
-	
-	function getInt(s) {
-		var n = parseInt(s,10);
-		if (!isNaN(n) && (n > 0) && (n < 10)) {
-			n = 0;
-		}
-		return n;
-	}
 
-	function getPos(row, col) {
-		var r, c, divNum;
-		r = Math.floor(row / BOARDSIZE);
-		c = Math.floor(col / BOARDSIZE);
-		divNum = (row % BOARDSIZE) * BOARDSIZE + col % BOARDSIZE;
-		return { r:r, c:c, divNum:divNum };
-	}
-	
-	function getRowCol(r,c,i) {
-		var row,col;
-		row = r * BOARDSIZE;
-		col = c * BOARDSIZE;
-		row += Math.floor(i / BOARDSIZE);
-		col += Math.floor(i % BOARDSIZE);
-		return { row: row, col: col};
-	}
 
-	// TODO
-	function goodNumber(n, row, col, r_, c_, divNum) {
-		var arr = sudoku[r_][c_],
-			i,
-			p,r,c,nn;
-		//check in cell
-		arr[divNum] = undefined;
-		i = arr.indexOf(n);
-		arr[divNum] = n;
-		if (i !== -1 ) return false;
-		//check column
-		for (r = 0; r < MAXNUM ; r++) {
-			if (r !== row) {
-				p = getPos(r, col);
-				nn = sudoku[p.r][p.c][p.divNum];
-				if (nn && nn === n) return false;
-			}
-		}
-		//check row
-		for (c = 0; c < MAXNUM ; c++) {
-			if (c !== col) {
-				p = getPos(row, c);
-				nn = sudoku[p.r][p.c][p.divNum];
-				if (nn && nn === n) return false;
-			}
-		}
-
-		return true;
-	}
-
-	function getNumSetter(div,r,c,i) {
+	function getNumSetter(coord) {
 		return function () {
-			var n = parseInt(div.innerHTML,10), pos;
+			var n = parseInt(this.innerHTML,10);
 			if (isNaN(n) || (n < 1) || (n > MAXNUM)) {
 				n = 0;
 			}
@@ -86,57 +190,25 @@ function initGame(N) {
 			} else {
 				n = 1;
 			}
-			div.innerHTML = n;
-			sudoku[r][c][i] = n;
-			pos = getRowCol(r,c,i);
-			if (goodNumber(n, pos.row, pos.col, r, c, i)) {
-				div.style.backgroundColor = "green";
-			} else {
-				div.style.backgroundColor = "red";
-			}
+			setNumWithStyle(coord,n);
 		}
 	}
 
 	function startGame() {
-		var i,r,c,div;
-		for (r = 0; r < BOARDSIZE; r += 1) {
-			for (c = 0; c < BOARDSIZE; c += 1) {
-				for (i = 0; i < MAXNUM; i += 1) {
+		var i,r,c,div,coord = new Coord(BOARDSIZE,MAXNUM);
+		for (r = 0; r < MAXNUM; r += 1) {
+			for (c = 0; c < MAXNUM; c += 1) {
 					if (Math.random() < DELETE_PROBABILITY) {
-						div = divs[r][c][i];
-						div.innerHTML = '';
-						div.style.backgroundColor = "red";
-						div.onclick = getNumSetter(div,r,c,i);
-						sudoku[r][c][i] = 0;
+						coord.setRowCol(r,c);
+						setNumWithStyle(coord,0).onclick = getNumSetter(coord.getCoord(r,c));
 					}
-				}
 			}
 		}
 	}
     
-    function getNewCoord(coord, back) {
-        var col = coord.col, row = coord.row;
-        if (back) {
-			if ( col > 0 ) {
-				col -= 1;
-			} else {
-				row -= 1;
-				col = MAXNUM - 1;
-			}        
-        } else {
-			if ( col < MAXNUM - 1 ) {
-				col += 1;
-			} else {
-				col = 0;
-				row += 1;
-			}
-        }
-        return { row:row, col:col};
-    }
-
-    function setNextStep(coord, backStep) {
+    function setNextStep(coord,backStep) {
 		if (coord.row >= 0 && coord.row < MAXNUM) {
-			setTimeout(function () { fillOne(N, coord, backStep); }, FILL_WAITING);
+			setTimeout(function () { fillOne(coord,backStep); }, FILL_WAITING);
 		} else {
             if (coord.row >= MAXNUM) {
                 startGame();
@@ -146,44 +218,42 @@ function initGame(N) {
 		}
     }
 
-    
-    function fillOne(N, coord, backStep) {
-		var r,c,divNum, num, div, pos;
-
-		pos = getPos(coord.row, coord.col);
-		r = pos.r;
-		c = pos.c;
-		divNum = pos.divNum;
-        
-        if (dontModify[r][c][divNum] && backStep) {
-            coord = getNewCoord(coord, backStep);
-            setNextStep(coord, backstep);
-            return;
-        }
-		
-		num = sudoku[r][c][divNum];
-		div = divs[r][c][divNum];
+	function getNextNum() {
+		var num = sudoku.getElement(coord);
 		if (num && num > 0 && num <= MAXNUM ) {
-			if (!dontModify[r][c][divNum] && num < MAXNUM) {
                 num += 1;
-            }
 		} else {
 			num = MINNUM;
 		}
-		sudoku[r][c][divNum] = num;
-		div.innerHTML = num;
-		while ( num <= MAXNUM && !goodNumber(num, coord.row, coord.col, r, c, divNum)) {
+		return num;
+	}
+    
+    function fillOne(coord,backStep) {
+		var num;
+
+        if (dontModify.getElement(coord)) {
+            coord.newCoord(backStep);
+            setNextStep(coord,backStep);
+            return;
+        }
+
+		backStep = false;
+		num = getNextNum();
+		setNum(num);
+
+		while ( num <= MAXNUM && sudoku.badNumber(coord)) {
 			num += 1;
-			div.innerHTML = num;
-			sudoku[r][c][divNum] = num;
+			setNum(num);
 		}
-        backStep = num > MAXNUM;
-        coord = getNewCoord(coord, backStep);
 
-		div.innerHTML = num;
-		sudoku[r][c][divNum] = num;
+		if (num > MAXNUM) {
+			backStep = true;
+			setNum(0);
+		}
 
-        setNextStep(coord, backStep);
+        coord.newCoord(backStep);
+
+        setNextStep(coord,backStep);
     }
 
     function getRandomPermutation() {
@@ -201,10 +271,11 @@ function initGame(N) {
         for (i = 0; i < BOARDSIZE; i += 1) {
             sudoku[i][i]=getRandomPermutation();
             pushArrToCell(sudoku[i][i],i,i);
-            //values are not important, only there must be true
+            //values are not important, only these must are true
             dontModify[i][i] = getRandomPermutation();
         }
-        fillOne(N, {row:0, col:3}, false);
+		coord.setRowCol(0,3);
+        fillOne(coord,false);
 	}
    
     function init() {
@@ -231,6 +302,6 @@ function initGame(N) {
 
 }
 
-initGame(9);
+game();
 
 }
