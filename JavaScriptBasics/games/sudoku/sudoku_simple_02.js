@@ -4,7 +4,7 @@ function SUDOKU () {
     var BOARDSIZE = 3,
 		MAXNUM = BOARDSIZE * BOARDSIZE,
 		MINNUM = 1,
-        DELETE_PROBABILITY = 0.7,
+        DELETE_PROBABILITY = 0.5,
         FILL_WAITING = 0, // millisecs between fill-steps. 0 - fastest filling
 		CSSRULESET_BADNUMBER = "badNumber",
 		CSSRULESET_GOODNUMBER = "goodNumber";
