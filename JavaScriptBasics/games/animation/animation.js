@@ -40,7 +40,7 @@ function initGame(params) {
 		setTimeout(anim, 50);
 	}
 
-    initSprite();
+	initSprite();
 	anim();
 
 }
