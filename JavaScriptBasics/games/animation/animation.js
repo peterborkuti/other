@@ -8,16 +8,13 @@ function initGame(params) {
 			TILEHEIGHT = params && params.tileHeight || TILEWIDTH,
 			WAITTIME = params && params.waitTime || 50, //msec
 			WAITTIME2 = Math.floor(WAITTIME/2),
-			TILEURL = params && params.tileURL || 'numbers.png',
+			SPRITEURL = params && params.spriteURL || 'animation.png',
 			MAPID = params && params.mapID || 'map',
 			VIEWPORTID = params && params.viewportID || 'viewport',
 			VELOCITY = params && params.velocity || 2,
-			SCROLLVELO = 1 << VELOCITY,
-			LEFT = params && params.left || 0,
-			TOP = params && params.top || 0,
-			RIGHT = LEFT + TILEWIDTH - SCROLLVELO;
+			SPRITEVELO = 1 << VELOCITY,
 			
-    var divs,
+    var div,
 		map = document.getElementById(MAPID),
 		mapStyle = map.style,
 		viewport = document.getElementById(VIEWPORTID),
