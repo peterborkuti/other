@@ -1,118 +1,46 @@
 function initGame(params) {
     "use strict";
 	/* const does not work in strict mode with chrome (const not in ECMAScript) */
-	var 	ROWNUM = params && params.rowNum || 3,
-			COLNUM = params && params.colNum || 6,
-			TILENUM = params && params.tileNum || 8,
-			TILEWIDTH = params && params.tileWidth || 150,
-			TILEHEIGHT = params && params.tileHeight || TILEWIDTH,
-			WAITTIME = params && params.waitTime || 50, //msec
-			WAITTIME2 = Math.floor(WAITTIME/2),
-			SPRITEURL = params && params.spriteURL || 'animation.png',
-			MAPID = params && params.mapID || 'map',
-			VIEWPORTID = params && params.viewportID || 'viewport',
-			VELOCITY = params && params.velocity || 2,
-			SPRITEVELO = 1 << VELOCITY,
-			
-    var div,
-		map = document.getElementById(MAPID),
-		mapStyle = map.style,
-		viewport = document.getElementById(VIEWPORTID),
-		scrollDir = 1,
-		scrollVel = VELOCITY, //velocity: 0,1,2, etc for bit shifting
-		tileStyleMatrix = [];
+	var sparams = params && params.sprite || {},
+		ROWNUM = sparams.rowNum || 5,
+		COLNUM = sparams.colNum || 6,
+		TILEWIDTH,
+		TILEHEIGHT,
+		SPRITEURL = sparams.url || 'animation_sheet.png',
+		SPRITEDIVID = sparams.divId || 'sprite',
+		VELOCITY = params && params.velocity || 2,
+		SPRITEVELO = 1 << VELOCITY,
+		div = document.getElementById(SPRITEDIVID),
+		divStyle = div.style;
 
-	function getRand(a,b) {
-		return Math.floor(Math.random()*(b-a+1)+a);
+	function initSprite() {
+		var img = new Image();
+		img.src = SPRITEURL;
+		TILEWIDTH = Math.floor(img.width / COLNUM);
+		TILEHEIGHT = Math.floor(img.height / ROWNUM);
+		divStyle.width = (TILEWIDTH)+"px";
+		divStyle.height = (TILEHEIGHT)+"px";
+		divStyle.backgroundImage = "url(" + SPRITEURL + ")";
+		divStyle.backgroundPosition = "0px 0px";
+		divStyle.row = 0;
+		divStyle.col = 0;
 	}
 
- 
-	function initDoc() {
-		mapStyle.width = (COLNUM*TILEWIDTH)+"px";
-		mapStyle.height = (ROWNUM*TILEHEIGHT)+"px";
-		map.xPos = LEFT;
-		mapStyle.left = map.xPos + "px";
-		mapStyle.top = TOP + "px";
-		mapStyle.borderStyle = "none";
-		viewport.style.width = ((COLNUM-1)*TILEWIDTH)+"px";
-		viewport.style.left = mapStyle.left;
-		viewport.style.top = mapStyle.top;
-		viewport.style.height = mapStyle.height;
-		viewport.style.borderStyle = "none solid none solid"; //top right bottom left
-		viewport.style.borderRightWidth = TILEWIDTH+"px";
-		viewport.style.borderLeftWidth = TILEWIDTH+"px";
-		//viewport.style.top = Math.floor(TILEHEIGHT/2) + "px";
-		//viewport.style.left = Math.floor(TILEWIDTH/2) + "px";
-	}
-
- 	function init() {
-		var c, r, div, style;
-
-		initDoc();
-
-		for (r = 0; r < ROWNUM; r += 1) {
-			tileStyleMatrix[r] = [];
-            for (c = 0; c < COLNUM; c += 1) {
-                div = document.createElement('div');
-                style = div.style;
-                style.backgroundImage = "url(" + TILEURL + ")";
-                style.backgroundPosition = (getRand(0,TILENUM-1)*TILEWIDTH)+"px 0px";
-                style.top = (r*TILEHEIGHT)+"px";
-                style.left = (c*TILEWIDTH)+"px";
-				style.position = "absolute";
-				style.height = (TILEHEIGHT)+"px";
-                style.width = (TILEWIDTH)+"px";
-                map.appendChild(div);
-				tileStyleMatrix[r][c] = style;
-            }
+	function anim() {
+		divStyle.col += 1;
+		if (divStyle.col >= COLNUM) {
+			divStyle.col = 0;
+			divStyle.row += 1;
 		}
-		
-	}
-	
-	function scrollTilesRight() {
-		var r, c,
-			maxC = tileStyleMatrix[0].length-1;
-		
-		for (r = 0; r < tileStyleMatrix.length; r += 1) {
-			for ( c = maxC ; c > 0; c -= 1) {
-				tileStyleMatrix[r][c].backgroundPosition = tileStyleMatrix[r][c-1].backgroundPosition;
-			}
+		if (divStyle.row >= ROWNUM) {
+			divStyle.row = 0;
 		}
-	}
-	
-	function addTilesLeft() {
-		var r;
-		for (r = 0; r < tileStyleMatrix.length; r += 1) {
-			tileStyleMatrix[r][0].backgroundPosition = (getRand(0,TILENUM-1)*TILEWIDTH)+"px 0px";;
-		}	
+		divStyle.backgroundPosition = "-" + (TILEWIDTH*divStyle.col) + "px -" + (TILEHEIGHT*divStyle.row) + "px";
+
+		setTimeout(anim, 50);
 	}
 
-	function scrollMapRight(){
-		if (map.xPos > RIGHT) {
-			scrollTilesRight();
-			addTilesLeft();
-			map.xPos = LEFT;
-			setTimeout(scrollMapRight,WAITTIME2);
-		} else {
-			map.xPos += SCROLLVELO;
-			setTimeout(scrollMapRight,WAITTIME);
-		}
-		
-		mapStyle.left = map.xPos + "px";
-		
-		
-	}
-	
-	function scroll(){
-		if (map.xPos > TILEWIDTH) scrollDir = -1;
-		if (map.xPos <=0 ) scrollDir = 1;
-		map.xPos += scrollDir << scrollVel;
-		mapStyle.left = map.xPos + "px";
-		
-		setTimeout(scroll,100);
-	}
-    
-    init();
-	scrollMapRight();
+    initSprite();
+	anim();
 
 }
