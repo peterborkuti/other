@@ -13,7 +13,7 @@ B0.prototype = new A0;
 var b0 = new B0;
 
 
-var table = [ {obj:b0}  ];
+var table = [ {'example': 'constructor',obj:b0}  ];
 table[0].isInsOf_B = (table[0].obj instanceof(B0));
 table[0].isInsOf_A = (table[0].obj instanceof(A0));
 table[0].AisProtOf = (A0.isPrototypeOf(b0));
@@ -35,7 +35,7 @@ B1.prototype.constructor = B1;
 var b1 = new B1;
 
 
-table.push({obj:b1});
+table.push({'example': 'impr. constr.', obj:b1});
 table[1].isInsOf_B = (table[1].obj instanceof(B1));
 table[1].isInsOf_A = (table[1].obj instanceof(A1));
 table[1].AisProtOf = (A1.isPrototypeOf(b1));
@@ -56,7 +56,7 @@ var B2 = Object.create(A2,
 
 var b2 = Object.create(B2);
 
-table.push({obj:b2});
+table.push({'example': 'prototype',obj:b2});
 //invalid 'instanceof' operand B2 
 //table[2].isInsOf_B = (table[2].obj instanceof(B2));
 //table[2].isInsOf_A = (table[2].obj instanceof(A2));
@@ -81,7 +81,7 @@ console.info("functional inheritance");
 
 var b3 = B3();
 
-table.push({obj:b3});
+table.push({'example': 'functional',obj:b3});
 //invalid 'instanceof' operand B2 
 table[3].isInsOf_B = (table[3].obj instanceof(B3));
 table[3].isInsOf_A = (table[3].obj instanceof(A3));
@@ -117,7 +117,7 @@ B4.prototype = getPrototype(A4,B4);
 
 var b4 = new B4(1,2);
 
-table.push({obj:b4});
+table.push({'example': 'constr and proto',obj:b4});
 //invalid 'instanceof' operand B2 
 table[4].isInsOf_B = (table[4].obj instanceof(B4));
 table[4].isInsOf_A = (table[4].obj instanceof(A4));
@@ -136,7 +136,25 @@ for (var i = 0; i < table.length; i++) {
 
 console.table(table);
 
+var t = [{'obj':'b2','own_a':
+b2.hasOwnProperty('a'),
+'own_b':
+b2.hasOwnProperty('b'),
+'proto_own_a':
+b2.__proto__.hasOwnProperty('a'),
+'proto_own_b':
+b2.__proto__.hasOwnProperty('b'),
+'proto_proto_own_a':
+b2.__proto__.__proto__.hasOwnProperty('a'),
+'proto_proto_own_b':
+b2.__proto__.__proto__.hasOwnProperty('b')}
 
+];
+
+
+console.table(t);
+
+/*
 
 
 
@@ -185,3 +203,5 @@ console.log(gb instanceof A);
 console.log(gb instanceof getB);
 console.log(gb.hasOwnProperty('b'));
 console.log(gb.hasOwnProperty('a'));
+
+*/

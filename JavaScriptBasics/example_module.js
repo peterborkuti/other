@@ -2,13 +2,13 @@ console.info("Module pattern");
 
 console.log("I. create namespace");
 
-liferay = {};
-liferay.com = {};
-liferay.com.bp = {};
+com = {};
+com.liferay = {};
+com.liferay.bp = {};
 
 console.log("II. create an empty module");
 
-liferay.com.bp.ModuleExample =
+com.liferay.bp.ModuleExample =
  function() {
 
 
@@ -16,7 +16,7 @@ liferay.com.bp.ModuleExample =
 
 console.log("III. create private vars");
 
-liferay.com.bp.ModuleExample =
+com.liferay.bp.ModuleExample =
  function() {
 	var p = "private var";
 
@@ -24,7 +24,7 @@ liferay.com.bp.ModuleExample =
 
 console.log("IV. create private funcs");
 
-liferay.com.bp.ModuleExample =
+com.liferay.bp.ModuleExample =
  function() {
 	var privvar = "";
 	
@@ -36,7 +36,7 @@ liferay.com.bp.ModuleExample =
 
 console.log("V. create public vars");
 
-liferay.com.bp.ModuleExample =
+com.liferay.bp.ModuleExample =
  function() {
 	var privvar = "privvalue";
 	
@@ -52,7 +52,7 @@ liferay.com.bp.ModuleExample =
 
 console.log("VI. create public funcs");
 
-liferay.com.bp.ModuleExample =
+com.liferay.bp.ModuleExample =
  function() {
 	var privvar = "privvalue";
 	
@@ -74,12 +74,12 @@ liferay.com.bp.ModuleExample =
 
 console.log("VII. use the module");
 
-liferay.com.bp.ModuleExample.pubfunc();
+com.liferay.bp.ModuleExample.pubfunc();
 
 console.log("VIII. use the module");
 
 (function() {
-	var BP = liferay.com.bp,
+	var BP = com.liferay.bp,
 		M = BP.ModuleExample;
 	
 	M.pubfunc();
