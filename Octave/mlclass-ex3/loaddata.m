@@ -28,8 +28,6 @@ X = [ones(m, 1) X];
 
 
 grad = zeros(size(theta));
-
-H = sigmoid(X*theta');
-j_ = -y' * log(H) - (1 - y)'*log(1-H);
-reg = lambda/(2*m)*(theta'*theta - theta(1)^2);
-J = (1/m)*j_ + reg;
+Z = theta*X';
+H = sigmoid(Z);
+J = (1/m)*(-log(H)*y - log(1-H)*(1-y));
