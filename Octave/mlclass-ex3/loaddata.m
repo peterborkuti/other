@@ -11,9 +11,10 @@ num_labels = 10;          % 10 labels, from 1 to 10
 %
 
 % Load Training Data
-fprintf('Loading and Visualizing Data ...\n')
+fprintf('Loading data ...\n')
 
 load('ex3data1.mat'); % training data stored in arrays X, y
+
 lambda = 0.1;
 
 m = size(X, 1);
@@ -25,9 +26,9 @@ theta = zeros(num_labels, n + 1);
 % Add ones to the X data matrix
 X = [ones(m, 1) X];
 
+%grad = zeros(size(theta));
 
+%H = sigmoid(X*theta);
+%j_ = -y .* log(H) - (1 - y) .* log(1-H);
+%J = sum((1/m)*j_);
 
-grad = zeros(size(theta));
-Z = theta*X';
-H = sigmoid(Z);
-J = (1/m)*(-log(H)*y - log(1-H)*(1-y));

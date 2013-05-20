@@ -33,11 +33,16 @@ num_labels = 10;          % 10 labels, from 1 to 10
 fprintf('Loading and Visualizing Data ...\n')
 
 load('ex3data1.mat'); % training data stored in arrays X, y
+%rand_indices = randperm(size(X,1));
+%R=rand_indices(1:100);
+%X=X(R, :);
+%y=y(R,:);
 m = size(X, 1);
 
 % Randomly select 100 data points to display
 rand_indices = randperm(m);
-sel = X(rand_indices(1:100), :);
+%sel = X(rand_indices(1:100), :);
+sel = X(1001:1100, :);
 
 displayData(sel);
 
@@ -60,6 +65,7 @@ lambda = 0.1;
 fprintf('Program paused. Press enter to continue.\n');
 pause;
 
+save 'all_theta' all_theta;
 
 %% ================ Part 3: Predict for One-Vs-All ================
 %  After ...
