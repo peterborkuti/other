@@ -9,54 +9,169 @@
 				margin: 0px;
 				overflow: hidden;
 			}
+            #container { border : solid black; }
 		</style>
 	<script type="text/javascript" src="../js/three.js"></script>
 	<script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
 	<script type="text/javascript">
+    var THREEJS00 = { renderer : null, scene : null, camera : null };
+    
+    THREEJS00.setScene = function () {
+
+        // set the this.scene size
+        var WIDTH = 400,
+          HEIGHT = 300;
+
+        // set some camera attributes
+        var VIEW_ANGLE = 45,
+          ASPECT = WIDTH / HEIGHT,
+          NEAR = 0.1,
+          FAR = 10000;
+
+        // get the DOM element to attach to
+        // - assume we've got jQuery to hand
+        var $container = $('#container');
+
+        // create a WebGL renderer, camera
+        // and a this.scene
+        this.renderer = new THREE.WebGLRenderer();
+        this.camera =
+          new THREE.PerspectiveCamera(
+            VIEW_ANGLE,
+            ASPECT,
+            NEAR,
+            FAR);
+
+        this.scene = new THREE.Scene();
+
+        // add the camera to the this.scene
+        this.scene.add(this.camera);
+
+        // the camera starts at 0,0,0
+        // so pull it back
+        this.camera.position.z = 300;
+
+        // start the renderer
+        this.renderer.setSize(WIDTH, HEIGHT);
+
+        // attach the render-supplied DOM element
+        $container.append(this.renderer.domElement);    
+    
+    }
+    
+    THREEJS00.getMaterial = function(c) {
+        if ( c === undefined) {
+            c = 0xCC0000;
+        };
+        // create the sphere's material
+        var material =
+          new THREE.MeshLambertMaterial(
+            {
+              color: c
+            });
+        return material;     
+    }
+    
+    THREEJS00.getSphere = function() {
+        var radius = 50,
+            segments = 16,
+            rings = 16;
+
+        // create a new mesh with
+        // sphere geometry - we will cover
+        // the sphereMaterial next!
+        var sphere = new THREE.Mesh(
+
+          new THREE.SphereGeometry(
+            radius,
+            segments,
+            rings),
+
+          this.getMaterial());
+          
+        // set the geometry to dynamic
+        // so that it allow updates
+        sphere.geometry.dynamic = true;
+
+        // changes to the vertices
+        sphere.geometry.verticesNeedUpdate = true;
+
+        // changes to the normals
+        sphere.geometry.normalsNeedUpdate = true;
+
+        return sphere;
+    
+    }
+ 
+    THREEJS00.getCube = function() {
+        var cube = new THREE.Mesh(
+            new THREE.CubeGeometry( 30, 30, 30 ),
+            this.getMaterial(0x00AA00) );
+
+        cube.position.y = 100;
+        
+        cube.geometry.dynamic = true;
+
+        // changes to the vertices
+        cube.geometry.verticesNeedUpdate = true;
+
+        // changes to the normals
+        cube.geometry.normalsNeedUpdate = true;
+
+        return cube;
+    
+    }
+ 
+    
+    THREEJS00.makeMesh = function() {
+        this.scene.add(this.getSphere());
+        this.scene.add(this.getCube());
+    }
+    
+    THREEJS00.setLights = function() {
+        // create a point light
+        var pointLight =
+          new THREE.PointLight(0xFFFFFF);
+
+        // set its position
+        pointLight.position.x = 10;
+        pointLight.position.y = 50;
+        pointLight.position.z = 130;
+
+        // add to the scene
+        this.scene.add(pointLight);    
+    }
+    
+    
+    
+    THREEJS00.renderLoop = function() {
+        this.renderer.render(this.scene, this.camera);
+        setTimeout(function () { THREEJS00.renderLoop(); }, 100);
+    }
+    
+    THREEJS00.setLoop = function() {
+        this.camera.position.z += 1;
+        this.camera.position.x += 1;
+        setTimeout(function () { THREEJS00.setLoop(); }, 100);
+    }
+    
+    THREEJS00.mouseMove = function(e) {
+        this.camera.position.x = e.pageX;
+        this.camera.position.y = e.pageY;
+    }
+    
 	
 	$(document).ready(function()
 	{ 
-// set the scene size
-var WIDTH = 400,
-  HEIGHT = 300;
-
-// set some camera attributes
-var VIEW_ANGLE = 45,
-  ASPECT = WIDTH / HEIGHT,
-  NEAR = 0.1,
-  FAR = 10000;
-
-// get the DOM element to attach to
-// - assume we've got jQuery to hand
-var $container = $('#container');
-
-// create a WebGL renderer, camera
-// and a scene
-var renderer = new THREE.WebGLRenderer();
-var camera =
-  new THREE.PerspectiveCamera(
-    VIEW_ANGLE,
-    ASPECT,
-    NEAR,
-    FAR);
-
-var scene = new THREE.Scene();
-
-// add the camera to the scene
-scene.add(camera);
-
-// the camera starts at 0,0,0
-// so pull it back
-camera.position.z = 300;
-
-// start the renderer
-renderer.setSize(WIDTH, HEIGHT);
-
-// attach the render-supplied DOM element
-$container.append(renderer.domElement);
+        THREEJS00.setScene();
+        THREEJS00.makeMesh();
+        THREEJS00.setLights();
+        THREEJS00.renderLoop();
+        //THREEJS00.setLoop();
+        $('#container').mousemove(function (e) { THREEJS00.mouseMove(e); });
 	});	
 	</script>
-<title>example Array</title>
+<title>threejs 00</title>
 </head>
 <html>
 <body>
