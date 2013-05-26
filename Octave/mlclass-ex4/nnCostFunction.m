@@ -28,8 +28,7 @@ m = size(X, 1); % m = 5000
 J = 0;
 Theta1_grad = zeros(size(Theta1)); % 25 x 401
 Theta2_grad = zeros(size(Theta2)); % 10 x 26
-
-keyboard
+%keyboard 
 
 % ====================== YOUR CODE HERE ======================
 % Instructions: You should complete the code by working through the
@@ -64,36 +63,49 @@ keyboard
 %
 
 %PART 1 - FEEDFORWARD
+%X 5000x400
+%Theta1 25x401
+%Theta2 10x26
 Y = eye(num_labels)(y, :); %5000x10
+%T1 = [ones(1,size(Theta1,2)); Theta1]; %26x401
+%T2 = Theta2; %10x26
+
 a1 = [ones(size(X,1),1) X]; %5000x401;
-T1 = [ones(1,size(Theta1,2)); Theta1]; %26x401
-z2 = a1 * T1'; %5000x26
-a2 = sigmoid(z2); %5000x26
-z3 = a2 * Theta2'; %5000%10
+z2 = a1 * Theta1'; %5000x401 * %401x25 => 5000x25
+a2 = sigmoid(z2); %5000x25
+
+a2 = [ones(size(a2,1),1) a2]; %5000x26
+z3 = a2 * Theta2'; %5000x26 * 26x10 => 5000x10
 H = sigmoid(z3); %5000x10
 %keyboard
 %PART 2
-REG_TERM = lambda/2 * (sum(sum(Theta1 .^ 2)) + sum(sum(Theta2 .^ 2)));
-J = 1/m * ( sum(sum(- Y .* log(H) - (1-Y) .* log(1-H))) + REG_TERM ); %R
+REG_TERM = (lambda/(2*m)) * (sum(sum(Theta1(:,2:end) .^ 2)) + sum(sum(Theta2(:,2:end) .^ 2)));
+J = (1/m) * (sum(sum(- Y .* log(H) - (1-Y) .* log(1-H)))) + REG_TERM ; %R
 
 %PART 3 - step 2
 
 d3 = H - Y; %5000x10
 
-%PART 3 - step 2
-
-d2 = d3 * Theta2 .* sigmoidGradient(z2); % 5000x10 * 10x26 .* 5000x26
+%PART 3 - step 3
+%keyboard
+d2 = d3 * Theta2(:,2:end) .* sigmoidGradient(z2); % 5000x10 * 10x25 .* 5000x25
 
 %PART 3 - step 4
-d2 = d2(:,2:end); %5000x25
+%d2 = d2(:,2:end); %5000x25
+%a2 = a2(:,2:end); %5000x25
 
 D2 = d3' * a2; %10x5000 * 5000*26 => 10x26
 D1 = d2' * a1; %25x5000 * 5000*401 => 25x401
 
 %PART 3 - step 5
+%keyboard
+%25x401
+Theta1_grad(:,1) = 1/m * D1(:,1);
+Theta1_grad(:,2:end) = 1/m * (D1(:,2:end) + lambda*Theta1(:,2:end));
 
-Theta1_grad = 1/m * (D1 + lambda*Theta1);
-Theta2_grad = 1/m * (D2 + lambda*Theta2);
+Theta2_grad(:,1) = 1/m * D2(:,1);
+Theta2_grad(:,2:end) = 1/m * (D2(:,2:end) + lambda*Theta2(:,2:end));
+
 %keyboard
 % -------------------------------------------------------------
 
