@@ -21,14 +21,13 @@ Theta1 = reshape(nn_params(1:hidden_layer_size * (input_layer_size + 1)), ...
 
 Theta2 = reshape(nn_params((1 + (hidden_layer_size * (input_layer_size + 1))):end), ...
                  num_labels, (hidden_layer_size + 1));
-
 % Setup some useful variables
-m = size(X, 1);
+m = size(X, 1); % m = 5000
          
 % You need to return the following variables correctly 
 J = 0;
-Theta1_grad = zeros(size(Theta1));
-Theta2_grad = zeros(size(Theta2));
+Theta1_grad = zeros(size(Theta1)); % 25 x 401
+Theta2_grad = zeros(size(Theta2)); % 10 x 26
 
 % ====================== YOUR CODE HERE ======================
 % Instructions: You should complete the code by working through the
@@ -39,6 +38,28 @@ Theta2_grad = zeros(size(Theta2));
 %         cost function computation is correct by verifying the cost
 %         computed in ex4.m
 %
+
+%X = [ones(size(X,1),1) X];
+%size(X) % 5000 x 401
+%Theta1 = [ones(1,size(Theta1,2)); Theta1];
+%size(Theta1) 26 x 401
+%size(Theta2) 10 x 26
+%size(y) 5000 x 1
+%input_layer_size
+%hidden_layer_size
+%for i=1:m
+% a1 = (X(i,:))'; % 401 x 1
+% z2 = Theta1 * a1; % 26x401 * 401x1 => 26x1
+% a2 = sigmoid(z2); % 26x1
+% z3 = Theta2 * a2; % 10x26 * 26x1 => 10x1
+% H = sigmoid(z3); % 10x1
+% %h = H > 0.5;
+% yi = [1:num_labels] == y(i); % 1x10
+% j = yi * log(H) + (1 - yi) * log(1 - H); % 1x10 * 10x1
+% J = J - j;
+ %keyboard
+%end
+%J = 1/m * J;
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
 %         the cost function with respect to Theta1 and Theta2 in Theta1_grad and
@@ -62,7 +83,16 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
-
+Y = eye(num_labels)(y, :); %5000x10
+a1 = [ones(size(X,1),1) X]; %5000x401;
+T1 = [ones(1,size(Theta1,2)); Theta1]; %26x401
+z2 = a1 * T1'; %5000x401 * 401x26 => 5000x26
+a2 = sigmoid(z2); %5000x26
+z3 = a2 * Theta2'; %5000x26 * 26x10 => 5000x10
+H = sigmoid(z3); %5000x10
+J -= Y .* log(H); %5000x10 .* 5000x10
+J -= (1-Y) .* log(1-H); %5000x10 .* 5000x10
+J = 1/m * sum(sum(J));
 
 
 
