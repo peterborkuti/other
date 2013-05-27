@@ -231,7 +231,7 @@
 
 			that.clearImages(['processedCanvas']);
 
-			magnifyAndKeepAspect(false, false);
+			magnifyAndKeepAspect(false, true);
 
 			that.clearImages(['inCanvas']);
 
@@ -278,22 +278,22 @@
                     greyData = that.helper.getGreyData('smallCanvas'),
 					i, j, b, N = greyData.width; 
 					//todo: deal with height also!
-/*
+
 				for (i = 0; i < greyData.length; i += 1) {
 					//greyData is an array which contains pixels in order of
 					//rows, but predict function needs pixels in order of columns
 					j = (i % N) * N + Math.floor(i / N); //todo: deal with height also!
 					arrBrightness[j] = greyData[i];
 				}
-*/
-				return greyData; //arrBrightness;
+
+				return arrBrightness; //arrBrightness;
 			}
             
             function outputToOctave(X, id) {
                 var s = '',
                     area = document.getElementById(id);
                 s = 'X = [';
-                s += X.join(';') + '];';
+                s += X.join(' ') + '];';
                 area.innerHTML = s;
             }
 
