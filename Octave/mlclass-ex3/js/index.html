@@ -18,9 +18,9 @@
 	</style>
   </head>
   <body onload="">
-	<canvas id="inCanvas" width="28" height="28"></canvas>
+	<canvas id="inCanvas" width="200" height="200"></canvas>
 	<button type="button" onclick="RECOGNIZER.processImage()">preprocess image</button>
-	<canvas id="processedCanvas" width="28" height="28"></canvas>
+	<canvas id="processedCanvas" width="200" height="200"></canvas>
 	<button type="button" onclick="RECOGNIZER.predictNumber()">predict number</button>
 	<canvas id="smallCanvas" width="20" height="20"></canvas>
     <textarea id="toOctave"></textarea>
@@ -45,7 +45,7 @@
 		nullPixel : 0x7F,
 
 		clearCanvas : function(canvas, context) {
-			context.lineWidth = 3;
+			context.lineWidth = 10;
 			context.fillStyle = this.backgroundColor;
 			context.fillRect(0,0,canvas.width,canvas.height);
 			context.strokeStyle="#FFFFFF";
@@ -103,8 +103,25 @@
 				return s;
 			},
 
+			arithmeticMean : function(arr) {
+				return this.sum(arr)/arr.length;
+			},
+			
+			// from Octave 3.6.4
+			//     Compute the standard deviation of the elements of the vector X.
+			//     std (x) = sqrt ( 1/(N-1) SUM_i (x(i) - mean(x))^2 )
+			//     where N is the number of elements.
+
+			std : function(arr) {
+				var mean = this.arithmeticMean(arr);
+				var N = arr.length;
+				var sum = 0;
+				arr.forEach(function(e) { e = e - mean; sum += e * e; });
+				return ( Math.sqrt( sum / (N - 1) ) );
+			},
+
 			stdDev : function(arr) {
-				var mean = this.sum(arr)/arr.length;
+				var mean = this.arithmeticMean(arr);
 				var stdev = Math.sqrt( this.sumSquares(arr)/arr.length - mean*mean );
 				return stdev;
 			},
@@ -113,10 +130,18 @@
 				return this.sum(arr)/arr.length;
 			},
 
+			//from mlclass-ex6 featureNormalize function
+			//mu = mean(X);
+			//X_norm = bsxfun(@minus, X, mu);
+			//sigma = std(X_norm);
+			//X_norm = bsxfun(@rdivide, X_norm, sigma);
+			
 			normalize : function(arr) {
-				var avg = this.avg(arr);
-				var stddev = this.stdDev(arr);
-				return arr.map(function(e) { return (stddev)?(e-avg)/stddev:0; });
+				var mean = this.arithmeticMean(arr);
+				var arr_norm = arr.map(function(e) { return e - mean; });
+				var sigma = this.std(arr_norm);
+				var ret = arr_norm.map(function(e) { return sigma?e/sigma:0; });
+				return ret;
 			},
             
             normalizeSimple : function(arr,a,b) {
@@ -202,7 +227,7 @@
 						width: x1-x0, height: y1-y0};
 			};
 
-			var magnifyAndKeepAspect = function (needResize, needCenter) {
+			var magnifyWithAspectAndCenter = function (needResize, needCenter) {
 				var icanvas = document.getElementById('inCanvas'),
 					icontext = icanvas.getContext('2d'),
 					pcanvas = document.getElementById('processedCanvas'),
@@ -231,7 +256,7 @@
 
 			that.clearImages(['processedCanvas']);
 
-			magnifyAndKeepAspect(false, true);
+			magnifyWithAspectAndCenter(false, false);
 
 			that.clearImages(['inCanvas']);
 
@@ -301,7 +326,7 @@
 			copyImage('processedCanvas', 'smallCanvas');
 
 			var arrBrightness = getBrightnessFromSmallImage();
-			var X = this.stat.normalizeSimple(arrBrightness);
+			var X = this.stat.normalize(arrBrightness);
             outputToOctave(X,'toOctave');
 			var p = predict(X, this.theta);
 			var span = document.getElementById('number');

@@ -52,11 +52,16 @@ error_val   = zeros(m, 1);
 %
 
 % ---------------------- Sample Solution ----------------------
+%size(X) 12x2
+%size(y) 12x1
+%size(Xval) 21 2
+%size(yval) 21 1
 
-
-
-
-
+for i = 1:m
+	[theta] = trainLinearReg(X(1:i,:), y(1:i), lambda);
+	[error_train(i), grad] = linearRegCostFunction(X(1:i,:), y(1:i), theta, 0);
+	[error_val(i), grad] = linearRegCostFunction(Xval, yval, theta, 0);
+end
 
 
 % -------------------------------------------------------------

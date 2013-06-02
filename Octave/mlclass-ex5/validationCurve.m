@@ -10,8 +10,8 @@ function [lambda_vec, error_train, error_val] = ...
 %
 
 % Selected values of lambda (you should not change this)
-lambda_vec = [0 0.001 0.003 0.01 0.03 0.1 0.3 1 3 10]';
-
+%lambda_vec = [0 0.001 0.003 0.01 0.03 0.1 0.3 1 3 10]';
+lambda_vec = (10:20)';
 % You need to return these variables correctly.
 error_train = zeros(length(lambda_vec), 1);
 error_val = zeros(length(lambda_vec), 1);
@@ -38,15 +38,12 @@ error_val = zeros(length(lambda_vec), 1);
 %       end
 %
 %
-
-
-
-
-
-
-
-
-
+for i = 1:length(lambda_vec)
+	lambda = lambda_vec(i);
+	theta = trainLinearReg(X,y,lambda);
+	[error_train(i), grad] = linearRegCostFunction(X, y, theta, 0);
+	[error_val(i), grad] = linearRegCostFunction(Xval, yval, theta, 0);
+end
 
 % =========================================================================
 
