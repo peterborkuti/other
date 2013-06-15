@@ -26,6 +26,18 @@ centroids = zeros(K, n);
 % Note: You can use a for-loop over the centroids to compute this.
 %
 
+%X 300x2
+%idx 300x1
+%centroids 3x2
+
+for k=1:K
+	O = (idx == k)'; %1x300
+	for i=1:n
+		centroids(k,i) = sum( O * X(:,i) );
+	end
+	centroids(k,:) = centroids( k,: ) / sum( O );
+end
+
 
 
 
