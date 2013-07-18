@@ -18,9 +18,9 @@
 	</style>
   </head>
   <body onload="">
-	<canvas id="inCanvas" width="200" height="200"></canvas>
+	<canvas id="inCanvas" width="2000px" height="2000px"></canvas>
 	<button type="button" onclick="RECOGNIZER.processImage()">preprocess image</button>
-	<canvas id="processedCanvas" width="200" height="200"></canvas>
+	<canvas id="processedCanvas" width="2000px" height="2000px"></canvas>
 	<button type="button" onclick="RECOGNIZER.predictNumber()">predict number</button>
 	<canvas id="smallCanvas" width="20" height="20"></canvas>
     <textarea id="toOctave"></textarea>
@@ -45,10 +45,14 @@
 		nullPixel : 0x7F,
 
 		clearCanvas : function(canvas, context) {
-			context.lineWidth = 10;
+			context.lineWidth = 100;
 			context.fillStyle = this.backgroundColor;
 			context.fillRect(0,0,canvas.width,canvas.height);
 			context.strokeStyle="#FFFFFF";
+            //context.shadowOffsetX = 2;   
+            //context.shadowOffsetY = 2;   
+            //context.shadowBlur = 2;   
+            //context.shadowColor = "rgba(0, 0, 0, 0.5)";   
 		},
 
 		clearImages : function(ids) {
@@ -60,6 +64,15 @@
 				this.clearCanvas(canvas, context);
 			}
 		},
+        
+        initCanvases : function() {
+            var canvas = document.getElementById('inCanvas');
+            canvas.style.width = "200px";
+            canvas.style.height = "200px";
+            canvas = document.getElementById('processedCanvas');
+            canvas.style.width = "200px";
+            canvas.style.height = "200px";
+        },
 
 		setListener : function () {
 			var canvas = document.getElementById('inCanvas'),
@@ -70,7 +83,7 @@
 
 			canvas.onmousedown = function (e) {
 				context.beginPath();
-				context.moveTo(e.clientX, e.clientY);
+				context.moveTo(e.clientX*10, e.clientY*10);
 				stroke = true;
 			}
 
@@ -84,7 +97,7 @@
 
 			canvas.onmousemove = function (e) {
 				if (stroke) {
-					context.lineTo(e.clientX, e.clientY);
+					context.lineTo(e.clientX*10, e.clientY*10);
 					context.stroke();
 				}
 			}
@@ -256,7 +269,7 @@
 
 			that.clearImages(['processedCanvas']);
 
-			magnifyWithAspectAndCenter(false, false);
+			magnifyWithAspectAndCenter(false, true);
 
 			that.clearImages(['inCanvas']);
 
@@ -338,6 +351,7 @@
 
 	};
 	
+    RECOGNIZER.initCanvases();
 	RECOGNIZER.setListener();
 	
 	</script>

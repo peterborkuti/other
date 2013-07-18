@@ -33,16 +33,19 @@ num_labels = 10;          % 10 labels, from 1 to 10
 fprintf('Loading and Visualizing Data ...\n')
 
 load('ex3data1.mat'); % training data stored in arrays X, y
-R = randperm(size(X,1));
-XTRAIN=X(R(1:4000), :);
-ytrain=y(R(1:4000),:);
-m = size(XTRAIN, 1);
+%rand_indices = randperm(size(X,1));
+%R=rand_indices(1:100);
+%X=X(R, :);
+%y=y(R,:);
+m = size(X, 1);
 
 % Randomly select 100 data points to display
-sel = X(R(1:100), :);
+rand_indices = randperm(m);
+%sel = X(rand_indices(1:100), :);
+sel = X(1, :);
 
 displayData(sel);
-keyboard;
+
 fprintf('Program paused. Press enter to continue.\n');
 pause;
 
@@ -54,40 +57,19 @@ pause;
 %  digit dataset.
 %
 
-%keyboard;
 fprintf('\nTraining One-vs-All Logistic Regression...\n')
 
-lambda = 1.5;
-[all_theta] = oneVsAll(XTRAIN, ytrain, num_labels, lambda);
+lambda = 0.1;
+[all_theta] = oneVsAll(X, y, num_labels, lambda);
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
 
 save 'all_theta' all_theta;
 
-XC=X(R(4001:5000),:);
-yc=y(R(4001:5000),:);
-pred = predictOneVsAll(all_theta, XC);
-m = mean(double(pred == yc)) * 100;
-fprintf('\nLambda: %f, Training Set Accuracy: %f\n', lambda, m);
-
-keyboard
-
 %% ================ Part 3: Predict for One-Vs-All ================
 %  After ...
+pred = predictOneVsAll(all_theta, X);
 
-l=[0 0.001 0.01 0.1 0.5 1 1.5 2 5 10 20 40];
-mmax = 0;
-lmax = 0;
-for i=1:size(l,2)
-	[all_theta] = oneVsAll(XTRAIN, ytrain, num_labels, l(i));
-	pred = predictOneVsAll(all_theta, XC);
-	m = mean(double(pred == yc)) * 100;
-	if (mmax < m)
-		mmax=m;
-		lmax=l(i);
-	endif
-	fprintf('\nLambda: %f, Training Set Accuracy: %f\n', l(i), m);
-end
+fprintf('\nTraining Set Accuracy: %f\n', mean(double(pred == y)) * 100);
 
-fprintf('\nMax accuracy: %f Lambda: %f\n', mmax, lmax);
