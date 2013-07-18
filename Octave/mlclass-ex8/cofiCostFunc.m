@@ -47,6 +47,12 @@ Theta_grad = zeros(size(Theta)); % num_users x num_features
 %num_movies 5
 %num_features 3
 %num_users 4
+%X : num_movies x num_features
+%R : num_movies x num_users ; R(i,j) : is movie i rated by user j?
+%Y : num_movies x num_users ; Y(i,j) : rating of movie i by user j
+%Theta: num_users x num_features
+%keyboard;
+
 SUM2THETA = sum(sum(Theta .^ 2));
 SUM2X = sum(sum(X .^ 2));
 
@@ -58,8 +64,33 @@ DIFF2 = DIFF .^ 2; %5 x 4
 
 J = sum(sum(DIFF2))/2 + lambda/2 * (SUM2THETA + SUM2X);
 
-X_grad = DIFF * Theta + lambda * X; %5x4 * 4x3 = 5x3
-Theta_grad = DIFF' * X + lambda * Theta; %4x5 * 5x3 = 4x3
+for i=1:num_movies
+%users, who rated movie i
+%idx: columns of rows i where value is 1
+idx=find(R(i,:)==1); % 1-row vector, columns: rating-users 
+%Thetas for rating-users
+Thetatemp=Theta(idx,:); %rating-users x num_features
+%Ys for rating-users
+Ytemp=Y(i,idx); % rating of rating-users for movie i
+X_grad(i,:) = (X(i,:)*Thetatemp' - Ytemp)*Thetatemp;
+
+end
+
+for j=1:num_users
+%movies rated by user i
+idx=find(R(:,j)==1); %1-column vector, rows: rated-movies
+%Xs for rated movies by user j
+Xtemp=X(idx,:);
+%Ys for rated-movies by user j
+Ytemp=Y(idx,j);
+Theta_grad(j,:) = (Theta(j,:)*Xtemp' - Ytemp')*Xtemp;
+
+end
+
+X_grad = X_grad + lambda * X;
+Theta_grad = Theta_grad + lambda * Theta;
+%X_grad = DIFF * Theta + lambda * X; %5x4 * 4x3 = 5x3
+%Theta_grad = DIFF' * X + lambda * Theta; %4x5 * 5x3 = 4x3
 
 % =============================================================
 
